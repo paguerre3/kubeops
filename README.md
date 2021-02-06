@@ -31,7 +31,7 @@ kubernetes guide that serves as theorical and practice documentation of core con
 
 
 ---
-### kubernetes components
+### kubernetes core components
 - NODE or worker node is a simple server that contains one or more pods in it, e.g. node1=physical or virtal machine. Physical machine layers=hardware+os kernel+application vs virtual machine=os kernel+application vs virtual container=works at application layer as its faster because runs on top of host os kernel and smaller, e.g. being os kernel=linux and application=alpine or ubuntu
 - POD is an abstraction over a container considered as the smallest unit of k8s, e.g. pod1=abstraction-over-docker-container-of-java-app and pod2=abstraction-over-docker-container-of-mongo-db inside node1/server. A pod creates a running environment on top of a container because k8s abstracts the running environment of the container technology so it isn't coupled to an scpecific technology as docker/docker-runtime, i.e. you only interact with kubernetes layer and the underlaying container technology can be replaced if needed
 
@@ -45,7 +45,7 @@ kubernetes guide that serves as theorical and practice documentation of core con
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/2-pod-communication-svc.PNG" width="48%" height="30%"> 
 
 - External type of Service exposes the IP of the Node which isn't practical, e.g. http://ip:port. A better solution is exposing the domain name using a secured protocol, e.g. https://my-app.com
-- INGRESS is the component resposible for forwardng the communication between the domain of the appication and the service that holds the permanent ip address of the containerized appllication
+- INGRESS is the component resposible for forwardng the communication between the domain of the appication and the service that holds the permanent ip address of the containerized application. In other words, it routes the traffic
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/3-pod-communication-ingress.PNG" width="48%" height="30%">
 
 - usually containerized application configurations are built within the application as properties, e.g. data base URL usually specified inside properties of the custom application that comunicates with the data base, i.e. if there is a change of the data base endpoint a rebuild/new-push-into-repo/new-pull-from-repo of the application image that uses it is required+restart
@@ -82,6 +82,9 @@ kubernetes guide that serves as theorical and practice documentation of core con
 **NOTE**
 > deploying pods of stateful containerized applications with StatefulSet isn't easy so data bases are ofter hosted outside k8s cluster and pods of stateless containerized applications communicate with external storages directly without even using pods of stateful applications and volumes service offered
 
+
+---
+### kubernetes architecture
 
 
 
