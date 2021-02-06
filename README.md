@@ -38,6 +38,6 @@ kubernetes guide that serves as theorical and practice documentation of core con
 **NOTE**
 > Usually 1 containerized application per pod
 - k8s offers an out of the box virtual network which means that each pod inside a node has its own IP, i.e. each Pod gets its own IP address (not the container) so each pod communicates with another pod inside the same node using the internal IP address (not external IP address)
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/1-pod-communication.PNG" width="15%" height="5%">
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/1-pod-communication.PNG" width="23%" height="13%">
 
-- pods in k8s are ephemeral, i.e. that they can die because of a crash and when it happens a pod gets "recreated" and a "new" IP is assigned. 
+- pods in k8s are ephemeral, i.e. that they can die because of a crash and when it happens a pod gets "recreated" and a "new" IP is assigned (this is an inconvenient as communication is lost among pods of the same node). To resolve the situation there is another component in k8s called Service 
