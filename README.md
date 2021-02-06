@@ -38,4 +38,4 @@ kubernetes guide that serves as theorical and practice documentation of core con
 **NOTE**
 > Usually 1 containerized application per pod
 - k8s offers an out of the box virtual network which means that each pod inside a node has its own IP, i.e. each Pod gets its own IP address (not the container) so each pod communicates with another pod inside the same node using the internal IP address (not external IP address)
-![Screenshot](https://github.com/paguerre3/kubeops/blob/main/support/1-pod-communication.PNG){:height="35%" width="25%"}
+![Screenshot](https://github.com/paguerre3/kubeops/blob/main/support/1-pod-communication.PNG?v=35&s=25)
