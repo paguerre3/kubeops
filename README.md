@@ -69,10 +69,19 @@ kubernetes guide that serves as theorical and practice documentation of core con
 **NOTE**
 > Service is a persistent static/permanent ip address with a dns name to avoid adjusting the endpoint when a pod dies. Service is also a LoadBalancer which means that it will receive the request and forward it to the pod that is less bussy
 - in k8s instead of creating the replica for the 2nd pod, the user defines Blueprints for pods where its specified how many replicas per each pod are necessary
-- DEPLOYMENT is the blueprint of "stateless" application pods where Replica requirements are defined. In practice, k8s users don't create pods and instead they create Deployments because replica specification and scale up/down mechanism are being done with the usage of it
+- DEPLOYMENT is the blueprint of "stateLESS" application pods where Replica requirements are defined. In practice, k8s users don't create pods and instead they create Deployments because replica specification and scale up/down mechanism are being done with the usage of it
 
 **NOTE**
 > pod is an abstraction layer on top of a container and a Deployment is considered an abstraction layer on top of the pod that is more convenient for k8s cluster management purposes, e.g. it helps when replicating and scaling pods
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/6-pod-communication-svc-deployment.PNG" width="48%" height="30%">
-- Deployments can't be used in case of pods with "stateful" applications containerized (e.g. data bases) because during pod replication they will be be replicating/clonning data therefore data inconsistencies by "how" the external-storage-system handles synchronization might occur, e.g. there is no mechanism defined inside a Deployment that specifies which pods are writters and which ones are readers of the storage system
--        
+
+- Deployments can't be used in case of pods with "stateFUL" applications containerized, e.g. data bases, because during pod replication they will be be replicating/clonning data therefore data inconsistencies by "how" the external-storage-system handles synchronization might occur, e.g. there is no mechanism defined inside a Deployment that specifies which pods are writters and which ones are readers of the storage system
+- STATEFULSET is meant for managing stateful applications in k8s cluster, e.g. mongodb, mysql and elastic-search. SatefulSet is  resposible of pod replication and ensuring that data inconsistencies don't occur with the external storage system attached to k8s cluster, e.g. defining which pods are writters and which ones are readers
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/7-pod-communication-svc-statefulset.PNG" width="48%" height="30%">
+
+**NOTE**
+Deploying pods of stateful containerized applications with StatefulSet isn't easy so data bases are ofter hosted outside k8s cluster and pods of stateless containerized applications communicate with external storages directly without even using pods of stateful applications and volumes service offered
+
+
+
+
