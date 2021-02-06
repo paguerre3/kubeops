@@ -73,6 +73,6 @@ kubernetes guide that serves as theorical and practice documentation of core con
 
 **NOTE**
 > pod is an abstraction layer on top of a container and a Deployment is considered an abstraction layer on top of the pod that is more convenient for k8s cluster management purposes, e.g. it helps when replicating and scaling pods
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/6-pod-communication-svc-cluster.PNG" width="48%" height="30%">
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/6-pod-communication-svc-deployment.PNG" width="48%" height="30%">
 - Deployments can't be used in case of pods with "stateful" applications containerized (e.g. data bases) because during pod replication they will be be replicating/clonning data therefore data inconsistencies by "how" the external-storage-system handles synchronization might occur, e.g. there is no mechanism defined inside a Deployment that specifies which pods are writters and which ones are readers of the storage system
 -        
