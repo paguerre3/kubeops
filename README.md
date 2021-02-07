@@ -164,12 +164,28 @@ nginx-depl-5c8bf76b5b   1         1         1       8m29s</code></pre>
 **NOTE**
 > Pod NAME is made of ReplicaSet name+its own id
 - REPLICASET manages the replicas of a Pod. In practice, k8s users never create ReplicaSet(s) and instead they work directly with Deployment definitions, i.e. a Deployment is the blueprint of the Pod and its configuration includes the specification about how many replicas are needed <code>[options]</code>
-
-**NOTE**
-> Layers of abstractions (top-to-bottom): a Deployment manages a ReplycaSet, a ReplicaSet manages the number of Pod replicas, and, a Pod manages a containerized appliction, i.e. that everything bellow Deployment is handled ny kubernetes! e.g. edit works at Deployment level, i.e. doing <code>kubectl edit deployment nginx-depl</code> and then changing the image number to an specific version+save will automatically trigger an update of the current pod that holds the different containerized image version/requesting a new download and then replacing current running pod with another version with the same Deployment "prefix" but with a new SeplicaSet number + new Pod id as a suffix <pre><code>kubectl get replicaset
+- Layers of abstractions (top-to-bottom): a Deployment manages a ReplycaSet, a ReplicaSet manages the number of Pod replicas, and, a Pod manages a containerized appliction, i.e. that everything bellow Deployment is handled ny kubernetes! e.g. edit works at Deployment level, i.e. doing <code>kubectl edit deployment nginx-depl</code> and then changing the image number to an specific version+save will automatically trigger an update of the current pod that holds the different containerized image version/requesting a new download and then replacing current running pod with another version with the same Deployment "prefix" but with a new SeplicaSet number + new Pod id as a suffix <pre><code>kubectl get replicaset
 NAME                    DESIRED   CURRENT   READY   AGE
 nginx-depl-5c8bf76b5b   0         0         0       40m --> NO pod exists in the old replicaset
 nginx-depl-7fc44fc5d4   1         1         1       5m22s</code></code>
-- 
+- debugging command is <code>kubectl logs [pod-name]</code>, e.g. 1st, create another deployment because nginx doesn't store logs by default, i.e. <code>kubectl create deployment mongo-depl --image=mongo</code> and then for checking logs<pre><code>kubectl logs mongo-depl-5fd6b7d4b4-cmsv8
+{"t":{"$date":"2021-02-07T22:33:34.095+00:00"},"s":"I",  "c":"CONTROL",  "id":23285,   "ctx":"main","msg":"Automatically disabling TLS 1.0, to force-enable TLS 1.0 specify --sslDisabledProtocols 'none'"}
+...</code></pre>
+- <code>kubectl describe pod [pode-name]</code> provides further information regarding pod status changes that could be useful when pod is in ContainerCreating state, e.g. <pre><code> kubectl describe pod mongo-depl-5fd6b7d4b4-cmsv8
+Name:         mongo-depl-5fd6b7d4b4-cmsv8
+...
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  8m24s  default-scheduler  Successfully assigned default/mongo-depl-5fd6b7d4b4-cmsv8 to minikube
+  Normal  Pulling    8m24s  kubelet            Pulling image "mongo"
+  Normal  Pulled     7m34s  kubelet            Successfully pulled image "mongo" in 50.4935322s
+  Normal  Created    7m34s  kubelet            Created container mongo
+  Normal  Started    7m33s  kubelet            Started container mongo</code></pre>
+- <code>kubectl exec -it [pode-name] -- bin/bash</code> is used to access inside of the containerized application of a pod by name, e.g. <pre><code>kubectl exec -it mongo-depl-5fd6b7d4b4-cmsv8 -- bin/bash
+root@mongo-depl-5fd6b7d4b4-cmsv8:/#</code></pre> 
 
+**NOTE**
+> it=interactive terminal. Once inside do <code>env</code> to get all environment variables inside the containerized application and <code>exit</code> to leave the terminal
+- 
 
