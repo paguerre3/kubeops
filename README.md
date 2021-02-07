@@ -85,6 +85,12 @@ kubernetes guide that serves as theorical and practice documentation of core con
 
 ---
 ### kubernetes architecture
+- NODE is the worker machine in k8s cluster, sometimes it's also called the worker node as its where the actual work happens. Each node has multiple Pods on it. There are 3 processes that must be installed in each Node that are used to manage and schedule Pods:
+- 1=container-runtime e.g. [docker runtime](https://github.com/paguerre3/dockerops)
+- 2=KUBLET is a k8s process resposible for scheduling Pods that interacts with both the container and the machine/node i.e. Kublet takes the configuration and starts the pod with a container inside of it and assigns the resources from the machine/node to the container like CPU, RAM and storage resources
 
-
-
+**NOTE**
+> communication in k8s cluster is made via Services, i.e. that services are responsible for routing and balancing the communication among pods of containerized applications. In other words, services act like load balancers that catch the request directly from a pod and then forward it to another pod, e.g. response communication routed between a pod of a containerized mongodb and another pod of a containerized java application
+- 3=KUBE-PROXY is a k8s cluster process responsible for forwarding requests from Services to Pods that must also be installed inside each worker node. Kube-proxy has intelligence inside of it for ensuring that the communication is performant and with low overhead, e.g. if pod of an application intends to communicate with another pod of a data base in k8s cluster, Kube-proxy will forward the communication to a pod of a data base that belongs to the same worker node within the cluster intead of selecting randomly the worker node in the entire cluster
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/8-k8s-cluster-processes.PNG" width="43%" height="30%">
+- 
