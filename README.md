@@ -104,4 +104,17 @@ kubernetes guide that serves as theorical and practice documentation of core con
 > application data isn't stored in ETCD!
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/9-master-processes.PNG" width="48%" height="30%">
 
-- Master Nodes are crucial for k8s cluster operation so, in practice, the cluster is made of multiple Master Nodes where Api Servers are load balanced and ETCD(s) is a distributed storage accross all Master Nodes. Normally Master Nodes require less resources, e.g. CPU or RAM, than worker Nodes but they are considered more important. A k8s cluster small setup usually includes 2 master nodes and 3 worker nodes and while the project increases more Master and worker Nodes are being added maintaining the relationship      
+- Master Nodes are crucial for k8s cluster operation so, in practice, the cluster is made of multiple Master Nodes where Api Servers are load balanced and ETCD(s) is a distributed storage accross all Master Nodes. Normally Master Nodes require less resources, e.g. CPU or RAM, than worker Nodes but they are considered more important. A k8s cluster small setup usually includes 2 master nodes (at least) and 3 worker nodes and while the project increases more Master and worker Nodes are being added maintaining the relationship
+
+
+---
+# Minikube and kubectl
+- Minikube is a test/local setup cluster where master + worker processes live only in "one" Node/Machine so there is no need to build a "real" k8s cluster with multiple Master and worker Nodes that will consume a lot of resources. It also has a docker container runtime pre-installed. In a laptop, minikube runs through Virtual Box or some other Hypervisor, i.e. it creates a virtual box on the laptop and Nodes run in that virtual box. In summary, Minikube is a One Node k8s cluster that runs inside Virtual Box used for Testing kubernetes in a Local Setup that doesn't require a lot of resources
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/10-minikube" width="48%" height="30%">
+
+- KUBECTL is a command line tool used to interact with k8s cluster, e.g. for creating pods, configMap/secret and services. It talks with k8s cluster via Api Server/cluster-gateway. Kubectl is also considered the most powerful client of Api Server compared to kubernetes dashboard ui and also the apis
+
+**NOTE**
+> Kubectl is used for interacting with a "real" k8s cloud cluster and, also, for speaking with Minikube in case of a test/local setup    
+
+
