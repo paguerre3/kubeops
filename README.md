@@ -115,6 +115,21 @@ kubernetes guide that serves as theorical and practice documentation of core con
 - KUBECTL is a command line tool used to interact with k8s cluster, e.g. for creating pods, configMap/secret and services. It talks with k8s cluster via Api Server/cluster-gateway. Kubectl is also considered the most powerful client of Api Server compared to kubernetes dashboard ui and also the apis
 
 **NOTE**
-> Kubectl is used for interacting with a "real" k8s cloud cluster and, also, for speaking with Minikube in case of a test/local setup    
-
+> Kubectl is used for interacting with a "real" k8s cloud cluster and, also, for speaking with Minikube in case of a test/local setup. Minikube install includes kubectl as a dependency
+- [Minikube install](https://minikube.sigs.k8s.io/docs/start/)
+- once installed, virtualization mechanism can be provided during minikube initialization, e.g. using docker driver for virtualization<pre><code>minikube start --vm-driver=docker</code></pre>
+- command for getting nodes status is<pre><code>kubectl get nodes
+NAME       STATUS   ROLES                  AGE   VERSION
+minikube   Ready    control-plane,master   12m   v1.20.2</code></pre>
+- check global status of processes<pre><code>minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+timeToStop: Nonexistent</code></pre>
+- check version<pre><code>kubectl version
+Client Version: version.Info{Major:"1", Minor:"19", GitVersion:"v1.19.3", GitCommit:"1e11e4a2108024935ecfcb2912226cedeafd99df", GitTreeState:"clean", BuildDate:"2020-10-14T12:50:19Z", GoVersion:"go1.15.2", Compiler:"gc", Platform:"windows/amd64"}
+Server Version: version.Info{Major:"1", Minor:"20", GitVersion:"v1.20.2", GitCommit:"faecb196815e248d3ecfb03c680a4507229c2a56", GitTreeState:"clean", BuildDate:"2021-01-13T13:20:00Z", GoVersion:"go1.15.5", Compiler:"gc", Platform:"linux/amd64"}</code></pre>
 
