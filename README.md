@@ -146,4 +146,30 @@ kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   26m</code></pre>
 
 **NOTE**
 > <code>--dry-run</code> doesn't really run the process and instead it prints it like if it was running just to check/test if its ok for running without persisting anything
--  
+- e.g. create Deployment/node based on nginx:latest dockerhub image<pre><code>kubectl create deployment nginx-depl --image=nginx
+deployment.apps/nginx-depl created</code></pre>
+- check deployments<pre><code>kubectl get deployment
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-depl   1/1     1            1           83s</code></pre>
+- check pods now shows one with prefix "ngnix-depl"<pre><code>kubectl get pod
+NAME                          READY   STATUS    RESTARTS   AGE
+nginx-depl-5c8bf76b5b-45vrs   1/1     Running   0          2m47s</code></pre>
+
+**NOTE**
+> a valid pod status is ContainerCreating in case it wasn't Running yet
+- between Deployments and pods there is another abstraction layer called ReplicaSet, i.e. <pre><code>kubectl get replicaset
+NAME                    DESIRED   CURRENT   READY   AGE
+nginx-depl-5c8bf76b5b   1         1         1       8m29s</code></pre>
+
+**NOTE**
+> Pod NAME is made of ReplicaSet name+its own id
+- REPLICASET manages the replicas of a Pod. In practice, k8s users never create ReplicaSet(s) and instead they work directly with Deployment definitions, i.e. a Deployment is the blueprint of the Pod and its configuration includes the specification about how many replicas are needed <code>[options]</code>
+
+**NOTE**
+> Layers of abstractions (top-to-bottom): a Deployment manages a ReplycaSet, a ReplicaSet manages the number of Pod replicas, and, a Pod manages a containerized appliction, i.e. that everything bellow Deployment is handled ny kubernetes! e.g. edit works at Deployment level, i.e. doing <code>kubectl edit deployment nginx-depl</code> and then changing the image number to an specific version+save will automatically trigger an update of the current pod that holds the different containerized image version/requesting a new download and then replacing current running pod with another version with the same Deployment "prefix" but with a new SeplicaSet number + new Pod id as a suffix <pre><code>kubectl get replicaset
+NAME                    DESIRED   CURRENT   READY   AGE
+nginx-depl-5c8bf76b5b   0         0         0       40m --> NO pod exists in the old replicaset
+nginx-depl-7fc44fc5d4   1         1         1       5m22s</code></code>
+- 
+
+
