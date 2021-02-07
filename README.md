@@ -187,5 +187,14 @@ root@mongo-depl-5fd6b7d4b4-cmsv8:/#</code></pre>
 
 **NOTE**
 > it=interactive terminal. Once inside do <code>env</code> to get all environment variables inside the containerized application and <code>exit</code> to leave the terminal
-- 
+- <code>kuebctl delete deployment [deployment-name]</code> for removing the pod and all it's abstraction layers, i.e. removal include deployment, replicaset and pod, e.g. <pre><code>kubectl delete deployment nginx-depl
+deployment.apps "nginx-depl" deleted</code></pre>
+
+**NOTE**
+> CRUD operations happen at deployment level, everything underneath is managed by k8s!
+- <code>kubectl apply -f [k8s-config-file.yml]</code> is the command used "in practice" to create Deployment, StatefulSet, Services, etc, considered simpler to use than providing all [options] in command line. It actually executes whatever is specified in the k8s-config-file.yml, e.g. [nginx Deployment]() + execution <pre><code>kubectl apply -f nginx-deployment.yml
+deployment.apps/nginx-deployment created</code></pre> 
+
+**NOTE**
+> f=file
 
