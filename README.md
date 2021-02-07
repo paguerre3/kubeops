@@ -110,7 +110,7 @@ kubernetes guide that serves as theorical and practice documentation of core con
 ---
 # Minikube and kubectl
 - Minikube is a test/local setup cluster where master + worker processes live only in "one" Node/Machine so there is no need to build a "real" k8s cluster with multiple Master and worker Nodes that will consume a lot of resources. It also has a docker container runtime pre-installed. In a laptop, minikube runs through Virtual Box or some other Hypervisor, i.e. it creates a virtual box on the laptop and Nodes run in that virtual box. In summary, Minikube is a One Node k8s cluster that runs inside Virtual Box used for Testing kubernetes in a Local Setup that doesn't require a lot of resources
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/10-minikube" width="48%" height="30%">
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/10-minikube.PNG" width="48%" height="30%">
 
 - KUBECTL is a command line tool used to interact with k8s cluster, e.g. for creating pods, configMap/secret and services. It talks with k8s cluster via Api Server/cluster-gateway. Kubectl is also considered the most powerful client of Api Server compared to kubernetes dashboard ui and also the apis
 
