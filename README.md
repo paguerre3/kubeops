@@ -214,7 +214,7 @@ nginx-deployment-644599b9c9-w8jzm   1/1     Running   0          14m --> same re
 - 1=<code>metadata</code> is where the name of the component is defined
 - 2=<code>spec</code> or specification is where the configurations of the component to apply exist, e.g. number of replicas. 
 - 3=<code>status</code> is automatically generated and added by kubernetes, i.e. k8s compares what is the "desired" state vs the "actual" state of a file so if they don't match then k8s knows that there is something that has to be fixed/updated (considered the basis of self-healing features of k8s), e.g. when incrementing the number of replicas of a Deployment so k8s knows that a new replica has to be added:
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/12-status-change-of-replicas.PNG" width="23%" height="30%">  
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/12-status-change-of-replicas.PNG" width="43%" height="30%">  
 
 **NOTE**
 > attributes of the <code>spec</code> are specific to a Kind of the component! e.g. Deployment kind has its own spec attributes that differ from a Service kind
