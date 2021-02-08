@@ -255,25 +255,20 @@ nginx-deployment-f4b7bbcbc-j6cln   1/1     Running   0          20m   172.17.0.7
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    deployment.kubernetes.io/revision: "2"
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"nginx"},"name":"nginx-deployment","namespace":"default"},"spec":{"replicas":2,"selector":{"matchLabels":{"app":"nginx"}},"template":{"metadata":{"labels":{"app":"nginx"}},"spec":{"containers":[{"image":"nginx:1.16","name":"nginx","ports":[{"containerPort":8080}]}]}}}}
-  creationTimestamp: "2021-02-07T23:46:07Z"
-  generation: 4
+...
   labels:
     app: nginx
 ...
 status:
   availableReplicas: 2
   conditions:
-  - lastTransitionTime: "2021-02-08T23:15:02Z"
+  \- lastTransitionTime: "2021-02-08T23:15:02Z"
     lastUpdateTime: "2021-02-08T23:15:02Z"
     message: Deployment has minimum availability.
     reason: MinimumReplicasAvailable
     status: "True"
     type: Available
-  - lastTransitionTime: "2021-02-07T23:46:07Z"
+  \- lastTransitionTime: "2021-02-07T23:46:07Z"
     lastUpdateTime: "2021-02-08T23:15:03Z"
     message: ReplicaSet "nginx-deployment-f4b7bbcbc" has successfully progressed.
     reason: NewReplicaSetAvailable
@@ -285,5 +280,5 @@ status:
   updatedReplicas: 2</code></pre>
 
 **NOTE**
-> to save deployment status from ETCD into a file <pre><code>kubectl get deployment nginx-deployment -o yaml > [fileOutput]</code></code>  
+> to save deployment status from ETCD into a file <code>kubectl get deployment nginx-deployment -o yaml > [fileName]</code>. Warning, if u want to use a deployment based on the outputFile from k8s/ETCD its required to remove all data auto-genereted by k8s which isn't something suggested to do in practice as there are a lot of sections added automatically as status and timestamp      
 
