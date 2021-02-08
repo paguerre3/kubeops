@@ -217,5 +217,6 @@ nginx-deployment-644599b9c9-w8jzm   1/1     Running   0          14m --> same re
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/12-status-change-of-replicas.PNG" width="43%" height="30%">  
 
 **NOTE**
-> attributes of the <code>spec</code> are specific to a Kind of the component! e.g. Deployment kind has its own spec attributes that differ from a Service kind
+> attributes of the <code>spec</code> are specific to a Kind of the component! e.g. Deployment kind has its own spec attributes that differ from a Service kind. 
+> Status information for re-scheduling and configuration management come from ETCD.  
 
