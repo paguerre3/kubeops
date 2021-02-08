@@ -203,4 +203,11 @@ NAME                                READY   STATUS    RESTARTS   AGE
 mongo-depl-5fd6b7d4b4-cmsv8         1/1     Running   0          87m
 nginx-deployment-644599b9c9-95vxt   1/1     Running   0          2m24s 
 nginx-deployment-644599b9c9-w8jzm   1/1     Running   0          14m --> same replicaset id=nginx-deployment-644599b9c9 for both pods as they are replicated</code></code>
+- summary of main k8s commands
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/11-kubectl-commands-1.PNG" width="48%" height="30%">
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/11-kubectl-commands-2.PNG" width="48%" height="30%">
+
+
+---
+# Yamel configuration file in k8s 
 
