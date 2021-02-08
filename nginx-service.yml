@@ -1,0 +1,16 @@
+apiVersion: v1
+# k8s config file type
+kind: Service
+metadata:
+  # deployment name
+  name: nginx-service
+spec:
+  selector: 
+    # service selector matches with deployment label
+    app: nginx
+  # port is the exposed port used for receiving request from other service/pods
+  # targetPort is the one that matches with pod/containerPort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

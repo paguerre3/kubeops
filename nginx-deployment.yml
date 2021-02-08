@@ -4,14 +4,16 @@ kind: Deployment
 metadata:
   # deployment name
   name: nginx-deployment
+  # service selector matches with depl. label
   labels:
     app: nginx
 spec:
-  replicas: 1
+  replicas: 2
   selector: 
+    # depl. selector label matches with template/pod label 
     matchLabels:
       app: nginx
-  # blue print of the pods
+  # blue print of the Pod
   template:
     metadata:
       labels:
@@ -20,6 +22,6 @@ spec:
       containers:
       - name: nginx
         image: nginx:1.16
-        # port binding 
+        # it matches with Service targetPort
         ports:
-        - containerPort: 80
+        - containerPort: 8080

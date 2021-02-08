@@ -222,5 +222,68 @@ nginx-deployment-644599b9c9-w8jzm   1/1     Running   0          14m --> same re
 - <code>labels</code> and <code>selector</code> are the "connecting" components, e.g. connecting Deployment to Pods or Deployment to a Service. In <code>metadata</code>:<code>labels</code> its defined any key-value pair for components, e.g. <code>app: nginx</code>. A-template-connector) Pods get the <code>label</code> through the <code>template</code> blueprint and "this" <code>label</code> is matched by the <code>selector</code>, e.g <code>selector</code>:<code>matchLabels</code>:<code>app: nginx</code>. B-service-connector) The <code>metadata</code>:<code>labels</code> defined in top section of the Deployment matches with the a Service configuration file <code>spec</code>:<code>selector</code>, e.g.
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/13-connecting-deployment-service.PNG" width="68%" height="60%">
 - Service=<code>ports</code>:<code>port</code> is the Port that the service uses to receive requests from services of other pods and the Service=<code>ports</code>:<code>targetPort</code> is the Port used to forward to the container of the Pod that received the request from the service, i.e. is actually the Port where the container is running therefore it matches with Deployment=<code>spec</code>:<code>template</code>:<code>spec</code>:<code>ports</code>:<code>containerPort</code>, e.g.
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/14-ports-in-service-and-pods.png" width="73%" height="70%">   
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/14-ports-in-service-and-pods.png" width="73%" height="70%">
+
+**NOTE**
+> in case of Service set <code>apiVersion: v1</code> instead of <code>apiVersion: apps/v1</code> in order to avoid unrecognized Kind error
+- e.g. [nginx Deployment](https://github.com/paguerre3/kubeops/blob/main/nginx-deployment.yml) + [nginx Service](https://github.com/paguerre3/kubeops/blob/main/nginx-service.yml) execution <code>kubectl apply -f .\nginx-deployment.yml</code> + <code>kubectl apply -f .\nginx-service.yml</code>
+- to check services <pre><code>kubectl get service
+NAME            TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+kubernetes      ClusterIP   10.96.0.1      <none>        443/TCP   26h
+nginx-service   ClusterIP   10.100.89.39   <none>        80/TCP    13s</code></pre>
+- to check if service forwards to the right port <pre><code>kubectl describe service nginx-service
+Name:              nginx-service
+Namespace:         default
+Labels:            <none>
+Annotations:       <none>
+Selector:          app=nginx
+Type:              ClusterIP
+IP:                10.100.89.39
+Port:              <unset>  80/TCP --> service port
+TargetPort:        8080/TCP --> target port matches with container ports of Pods
+Endpoints:         172.17.0.6:8080,172.17.0.7:8080 --> replica Pods
+Session Affinity:  None
+Events:            <none></code></pre>
+- to check pod with "more details" including IPs<pre><code>kubectl get pod -o wide
+NAME                               READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+nginx-deployment-f4b7bbcbc-8rch5   1/1     Running   0          20m   172.17.0.6   minikube   <none>           <none>
+nginx-deployment-f4b7bbcbc-j6cln   1/1     Running   0          20m   172.17.0.7   minikube   <none>           <none></code></pre>
+
+**NOTE**
+> o=output
+- to check status updated of the deployment "from ETD"<pre><code>kubectl get deployment nginx-deployment -o yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"nginx"},"name":"nginx-deployment","namespace":"default"},"spec":{"replicas":2,"selector":{"matchLabels":{"app":"nginx"}},"template":{"metadata":{"labels":{"app":"nginx"}},"spec":{"containers":[{"image":"nginx:1.16","name":"nginx","ports":[{"containerPort":8080}]}]}}}}
+  creationTimestamp: "2021-02-07T23:46:07Z"
+  generation: 4
+  labels:
+    app: nginx
+...
+status:
+  availableReplicas: 2
+  conditions:
+  - lastTransitionTime: "2021-02-08T23:15:02Z"
+    lastUpdateTime: "2021-02-08T23:15:02Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2021-02-07T23:46:07Z"
+    lastUpdateTime: "2021-02-08T23:15:03Z"
+    message: ReplicaSet "nginx-deployment-f4b7bbcbc" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 4
+  readyReplicas: 2
+  replicas: 2
+  updatedReplicas: 2</code></pre>
+
+**NOTE**
+> to save deployment status from ETCD into a file <pre><code>kubectl get deployment nginx-deployment -o yaml > [fileOutput]</code></code>  
 
