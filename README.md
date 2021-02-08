@@ -202,5 +202,5 @@ deployment.apps/nginx-deployment configured --> now it doesn't say created and i
 NAME                                READY   STATUS    RESTARTS   AGE
 mongo-depl-5fd6b7d4b4-cmsv8         1/1     Running   0          87m
 nginx-deployment-644599b9c9-95vxt   1/1     Running   0          2m24s 
-nginx-deployment-644599b9c9-w8jzm   1/1     Running   0          14m --> same replicaset id=nginx-deployment-644599b9c9 for both pods as ther are replicated</code></code>
+nginx-deployment-644599b9c9-w8jzm   1/1     Running   0          14m --> same replicaset id=nginx-deployment-644599b9c9 for both pods as they are replicated</code></code>
 
