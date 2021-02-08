@@ -192,9 +192,15 @@ deployment.apps "nginx-depl" deleted</code></pre>
 
 **NOTE**
 > CRUD operations happen at deployment level, everything underneath is managed by k8s!
-- <code>kubectl apply -f [k8s-config-file.yml]</code> is the command used "in practice" to create Deployment, StatefulSet, Services, etc, considered simpler to use than providing all [options] in command line. It actually executes whatever is specified in the k8s-config-file.yml, e.g. [nginx Deployment]() + execution <pre><code>kubectl apply -f nginx-deployment.yml
-deployment.apps/nginx-deployment created</code></pre> 
+- <code>kubectl apply -f [k8s-config-file.yml]</code> is the command used "in practice" to create Deployment, StatefulSet, Services, etc, considered simpler to use than providing all [options] in command line. It actually executes whatever is specified in the k8s-config-file.yml, e.g. [nginx Deployment](https://github.com/paguerre3/kubeops/blob/main/nginx-deployment.yml) + fulfilment <pre><code>kubectl apply -f nginx-deployment.yml
+deployment.apps/nginx-deployment created</code></pre>
 
 **NOTE**
 > f=file
+- then, based on previous example, if its required to update the number of replicas this can simply be done by changing it in the Deployment file and doing <code>apply</code>, i.e. k8s knows when to create or update deployments, e.g. <pre><code>kubectl apply -f nginx-deployment.yml
+deployment.apps/nginx-deployment configured --> now it doesn't say created and instead this means update</code></pre> and checking pods results <pre><code>kubectl get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+mongo-depl-5fd6b7d4b4-cmsv8         1/1     Running   0          87m
+nginx-deployment-644599b9c9-95vxt   1/1     Running   0          2m24s 
+nginx-deployment-644599b9c9-w8jzm   1/1     Running   0          14m --> same replicaset id=nginx-deployment-644599b9c9 for both pods as ther are replicated</code></code>
 
