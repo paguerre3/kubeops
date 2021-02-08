@@ -214,9 +214,11 @@ nginx-deployment-644599b9c9-w8jzm   1/1     Running   0          14m --> same re
 - 1=<code>metadata</code> is where the name of the component is defined
 - 2=<code>spec</code> or specification is where the configurations of the component to apply exist, e.g. number of replicas. 
 - 3=<code>status</code> is automatically generated and added by kubernetes, i.e. k8s compares what is the "desired" state vs the "actual" state of a file so if they don't match then k8s knows that there is something that has to be fixed/updated (considered the basis of self-healing features of k8s), e.g. when incrementing the number of replicas of a Deployment so k8s knows that a new replica has to be added:
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/12-status-change-of-replicas.PNG" width="43%" height="30%">  
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/12-status-change-of-replicas.PNG" width="48%" height="30%">  
 
 **NOTE**
-> attributes of the <code>spec</code> are specific to a Kind of the component! e.g. Deployment kind has its own spec attributes that differ from a Service kind. 
-> Status information for re-scheduling and configuration management come from ETCD.  
-
+> attributes of the <code>spec</code> are specific to a Kind of the component! e.g. Deployment kind has its own spec attributes that differ from a Service kind. Status information for re-scheduling and configuration management come from ETCD, i.e. ETCD master process holds the current status of any k8s component! yamel configuration files are usually placed with the code, i.e. IaC=infrastructure as a code. Depending on the project sometimes these are placed within a separated git repository
+- <code>template</code> section of a Deployment has its own <code>metadata</code> and <code>spec</code> sections, i.e. a configuration inside another configuration file. The reason of a <code>template</code> section as its own configuration is because it applies to a Pod, i.e. it represents the "blueprint" of a Pod where the image:version, port to open and the name of the container are defined under the <code>containers</code> section of it
+- <code>labels</code> and <code>selector</code> are the "connecting" components, e.g. connecting Deployment to Pods or Deployment to a Service. In <code>metadata</code>:<code>labels</code> its defined any key-value pair for components, e.g. <code>app: nginx</code>. A-template-connector) Pods get the <code>label</code> through the <code>template</code> blueprint and "this" <code>label</code> is matched by the <code>selector</code>, e.g <code>selector</code>:<code>matchLabels</code>:<code>app: nginx</code>. B-service-connector) The <code>metadata</code>:<code>labels</code> defined in top section of the Deployment matches with the a Service configuration file <code>spec</code>:<code>selector</code>, e.g.
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/13-connecting-deployment-service.PNG" width="48%" height="30%">
+        
