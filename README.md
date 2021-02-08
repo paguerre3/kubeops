@@ -256,28 +256,28 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
 ...
-  labels:
-    app: nginx
+labels:
+&nbsp;app: nginx
 ...
 status:
-  availableReplicas: 2
-  conditions:
-  \- lastTransitionTime: "2021-02-08T23:15:02Z"
-    lastUpdateTime: "2021-02-08T23:15:02Z"
-    message: Deployment has minimum availability.
-    reason: MinimumReplicasAvailable
-    status: "True"
-    type: Available
-  \- lastTransitionTime: "2021-02-07T23:46:07Z"
-    lastUpdateTime: "2021-02-08T23:15:03Z"
-    message: ReplicaSet "nginx-deployment-f4b7bbcbc" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-  observedGeneration: 4
-  readyReplicas: 2
-  replicas: 2
-  updatedReplicas: 2</code></pre>
+&nbsp;availableReplicas: 2
+&nbsp;conditions:
+&nbsp;\- lastTransitionTime: "2021-02-08T23:15:02Z"
+&nbsp;&nbsp;lastUpdateTime: "2021-02-08T23:15:02Z"
+&nbsp;&nbsp;message: Deployment has minimum availability.
+&nbsp;&nbsp;reason: MinimumReplicasAvailable
+&nbsp;&nbsp;status: "True"
+&nbsp;&nbsp;type: Available
+&nbsp;\- lastTransitionTime: "2021-02-07T23:46:07Z"
+&nbsp;&nbsp;lastUpdateTime: "2021-02-08T23:15:03Z"
+&nbsp;&nbsp;message: ReplicaSet "nginx-deployment-f4b7bbcbc" has successfully progressed.
+&nbsp;&nbsp;reason: NewReplicaSetAvailable
+&nbsp;&nbsp;status: "True"
+&nbsp;&nbsp;type: Progressing
+&nbsp;observedGeneration: 4
+&nbsp;readyReplicas: 2
+&nbsp;replicas: 2
+&nbsp;updatedReplicas: 2</code></pre>
 
 **NOTE**
 > to save deployment status from ETCD into a file <code>kubectl get deployment nginx-deployment -o yaml > [fileName]</code>. Warning, if u want to use a deployment based on the outputFile from k8s/ETCD its required to remove all data auto-genereted by k8s which isn't something suggested to do in practice as there are a lot of sections added automatically as status and timestamp      
