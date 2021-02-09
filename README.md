@@ -305,13 +305,16 @@ deployment.apps/mongodb-deployment created</code></pre>
 deployment.apps/mongodb-deployment unchanged --> deployment haven't been changed, only Service was added 
 service/mongodb-service created</code></pre>
 
-**NOTE**
+**NOTE** 
 > <code>kubectl get all | grep mongodb</code> to filter output results by "mongodb" in unix like OOSS. <code>kubectl get all -o wide</code> to show more details including IPs
 - 4=create ConfigMap for storing mongodb address to be used by "mongoexpress" Deployment for communicating with mongodb. Note that ConfigMap is used as a centralized store for common configurations among Deployments/Pods because the Deployment itself can hold the URL value directly but its a less preferred option than ConfigMap as if other Deployments/Pods need to use the same address it won't be shared. Warning, if ConfigMap reference is used inside a Deployment then ConfigMap must be created in 1st place! e.g. [mongo ConfigMap](https://github.com/paguerre3/kubeops/blob/main/mongo-configmap.yml) and execution <pre><code>kubectl apply -f .\mongo-configmap.yml
 configmap/mongodb-configmap created</code></pre>
-- 5=create "mongoexpress" Deployment for communicating with mongodb, using ConfigMap as reference, and also create "External"Service inside same yamel so mongoexpress ui can be accessed from browser, e.g. [mongoexpress Deployment + ExternalService](https://github.com/paguerre3/kubeops/blob/main/mongoexpress.yml) and execution </pre><pre><code>kubectl apply -f .\mongoexpress.yml
+- 5=create "mongoexpress" Deployment for communicating with mongodb, using ConfigMap as reference, and also create "External"Service inside same yamel so mongoexpress ui can be accessed from browser, e.g. [mongoexpress Deployment + ExternalService](https://github.com/paguerre3/kubeops/blob/main/mongoexpress.yml) and execution <pre><code>kubectl apply -f .\mongoexpress.yml
 deployment.apps/mongoexpress-deployment created
 service/mongoexpress-service created</code></pre>
 
 **NOTE**
 > Service=<code>spec</code>:<code>type: LoadBalancer</code> makes the "External"Service. This is considered a bad name for <code>type</code> because InternalService also loads and balances requests. <code>LoadBalancer</code> accepts external requests by assigning an "external" IP to the Service. Important, its also necessary to add a <code>nodePort</code> inside Service=<code>spec</code>:<code>ports</code> section that refers to the "external" port to be accessed from browser but it only has a "valid range" of assignment, i.e. 30000-32767!
+
+**NOTE**
+> <code>ClusterIP</code> is the default type for InternalService that provides an "internal" service IP while <code>LoadBalancer</code> provides "external" IP and also internal IP for the ExternalService (both), e.g.
