@@ -44,3 +44,24 @@ spec:
             configMapKeyRef:
               name: mongodb-configmap
               key: database_url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # deployment name
+  name: mongoexpress-service
+spec:
+  selector: 
+    # service selector matches with deployment label
+    app: mongoexpress
+  # LoadBalancer type makes the "External"Service as it assigns an external IP for accepting external requests. 
+  # This is a bad name because "Internal"Service also loads and balances requests 
+  type: LoadBalancer
+  # port is the exposed port used for receiving request from other service/pods
+  # targetPort is the one that matches with pod/containerPort.
+  # nodePort is the one used in the "external" IP but it only has a "valid range" of assignment, i.e. 30000-32767 
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+      nodePort: 30000
