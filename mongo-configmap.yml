@@ -1,0 +1,11 @@
+apiVersion: v1
+# ConfigMap kind is usually stored in a "common" place
+# different than the Depoyment respository as is shared among Deployments
+kind: ConfigMap
+metadata:
+  # random name here
+  name: mongodb-configmap
+# content section
+# url points to Service name related
+data:
+  database_url: mongodb-service
