@@ -307,4 +307,4 @@ service/mongodb-service created</code></pre>
 
 **NOTE**
 > <code>kubectl get all | grep mongodb</code> to filter output results by "mongodb" in unix like OOSS. <code>kubectl get all -o wide</code> to show more details including IPs
--   
+- 4=create mongoexpress Deployment + mongoexpress Service and ConfigMap for accessing mongodb.   
