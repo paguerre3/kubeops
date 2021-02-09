@@ -307,8 +307,7 @@ service/mongodb-service created</code></pre>
 
 **NOTE**
 > <code>kubectl get all | grep mongodb</code> to filter output results by "mongodb" in unix like OOSS. <code>kubectl get all -o wide</code> to show more details including IPs
-- 4=create ConfigMap for storing mongodb address and "mongoexpress" Deployment for communicating with mongodb. Note that ConfigMap is used as a centralized store for common configurations among Deployments/Pods because the Deployment itself can hold the URL value directly but its a less preferred option than ConfigMap as if other Deployments/Pods need to use the same address it won't be shared. Warning, if ConfigMap reference is used inside a Deployment then ConfigMap must be created in 1st place! e.g. [mongo ConfigMap](https://github.com/paguerre3/kubeops/blob/main/mongo-configmap.yml) + [mongoexpress Deployment](https://github.com/paguerre3/kubeops/blob/main/mongoexpress.yml) and execution <pre><code>kubectl apply -f .\mongo-configmap.yml
+- 4=create ConfigMap for storing mongodb address and "mongoexpress" Deployment for communicating with mongodb. Note that ConfigMap is used as a centralized store for common configurations among Deployments/Pods because the Deployment itself can hold the URL value directly but its a less preferred option than ConfigMap as if other Deployments/Pods need to use the same address it won't be shared. Warning, if ConfigMap reference is used inside a Deployment then ConfigMap must be created in 1st place! e.g. [mongo ConfigMap](https://github.com/paguerre3/kubeops/blob/main/mongo-configmap.yml) and execution <pre><code>kubectl apply -f .\mongo-configmap.yml
 configmap/mongodb-configmap created</code></pre>
-<pre><code>kubectl apply -f .\mongoexpress.yml
+- 5=create "mongoexpress" Deployment for communicating with mongodb using ConfigMap as reference, e.g. [mongoexpress Deployment](https://github.com/paguerre3/kubeops/blob/main/mongoexpress.yml) and execution </pre><pre><code>kubectl apply -f .\mongoexpress.yml
 deployment.apps/mongoexpress-deployment created</code></pre>
-- 
