@@ -297,4 +297,8 @@ secret/mongodb-secret created</code></pre>
 **NOTE**
 > <code>kubectl get secret</code> shows secret created
 - 2. create Deployment yaml, e.g. [mongo Deployment](https://github.com/paguerre3/kubeops/blob/main/mongo-deployment.yml) + execution <pre><code>kubectl apply -f .\mongo-deployment.yml
-deployment.apps/mongodb-deployment created</code></pre>         
+deployment.apps/mongodb-deployment created</code></pre>
+
+**NOTE**
+> <code>kubectl get pod --watch</code> to observe progress of pod creation
+- 
