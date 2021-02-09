@@ -221,6 +221,7 @@ nginx-deployment-644599b9c9-w8jzm   1/1     Running   0          14m --> same re
 - <code>template</code> section of a Deployment has its own <code>metadata</code> and <code>spec</code> sections, i.e. a configuration inside another configuration file. The reason of a <code>template</code> section as its own configuration is because it applies to a Pod, i.e. it represents the "blueprint" of a Pod where the image:version, port to open and the name of the container are defined under the <code>containers</code> section of it
 - <code>labels</code> and <code>selector</code> are the "connecting" components, e.g. connecting Deployment to Pods or Deployment to a Service. In <code>metadata</code>:<code>labels</code> its defined any key-value pair for components, e.g. <code>app: nginx</code>. A-template-connector) Pods get the <code>label</code> through the <code>template</code> blueprint and "this" <code>label</code> is matched by the <code>selector</code>, e.g <code>selector</code>:<code>matchLabels</code>:<code>app: nginx</code>. B-service-connector) The <code>metadata</code>:<code>labels</code> defined in top section of the Deployment matches with the a Service configuration file <code>spec</code>:<code>selector</code>, e.g.
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/13-connecting-deployment-service.PNG" width="68%" height="60%">
+
 - Service=<code>ports</code>:<code>port</code> is the Port that the service uses to receive requests from services of other pods and the Service=<code>ports</code>:<code>targetPort</code> is the Port used to forward to the container of the Pod that received the request from the service, i.e. is actually the Port where the container is running therefore it matches with Deployment=<code>spec</code>:<code>template</code>:<code>spec</code>:<code>ports</code>:<code>containerPort</code>, e.g.
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/14-ports-in-service-and-pods.png" width="73%" height="70%">
 
@@ -281,5 +282,19 @@ status:
 
 **NOTE**
 > to save deployment status from ETCD into a file <code>kubectl get deployment nginx-deployment -o yaml > [fileName]</code>. Warning, if u want to use a deployment based on the outputFile from k8s/ETCD its required to remove all data auto-genereted by k8s which isn't something suggested to do in practice as there are a lot of sections added automatically as status and timestamp
-- for deleting components<code>kubectl delete -f [k8s-config-file-name]</code>, e.g. <code>kubectl delete -f .\nginx-service.yml</code> and <code>kubectl delete -f .\nginx-deployment.yml</code>      
+- for deleting components<code>kubectl delete -f [k8s-config-file-name]</code>, e.g. <code>kubectl delete -f .\nginx-service.yml</code> and <code>kubectl delete -f .\nginx-deployment.yml</code>
 
+
+---
+# demo project, i.e. mongodb and mongoexpress
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/15-demo-project-flow.png" width="48%" height="30%">
+
+**NOTE**
+> <code>kubectl get all</code> returns all components in k8s  
+- 1. create Secret for user and password of mongodb so credentials aren't set in plain text under Deployment, i.e. Secret must be created before the Deployment if referenced inside of it (order of creation matters!). A Secret is usually stored in a secured pace different than the Depoyment respository. Warning, storing the data in Secret component doesn't automatically make it secure, there are built-in mechanism (like encryption) for basic security that aren't set by default. Values stored in key/value section of Secret should be written in bas64 encoding format, e.g. <code>echo -n 'username' | base64</code> and <code>echo -n 'password' | base64</code>. e.g. [mongo Secret](https://github.com/paguerre3/kubeops/blob/main/mongo-secret.yml) + execution <pre><code>kubectl apply -f .\mongo-secret.yml
+secret/mongodb-secret created</code></pre>
+
+**NOTE**
+> <code>kubectl get secret</code> shows secret created
+- 2. create Deployment yaml, e.g. [mongo Deployment](https://github.com/paguerre3/kubeops/blob/main/mongo-deployment.yml) + execution <pre><code>kubectl apply -f .\mongo-deployment.yml
+deployment.apps/mongodb-deployment created</code></pre>         
