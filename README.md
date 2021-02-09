@@ -280,5 +280,6 @@ status:
 &nbsp;updatedReplicas: 2</code></pre>
 
 **NOTE**
-> to save deployment status from ETCD into a file <code>kubectl get deployment nginx-deployment -o yaml > [fileName]</code>. Warning, if u want to use a deployment based on the outputFile from k8s/ETCD its required to remove all data auto-genereted by k8s which isn't something suggested to do in practice as there are a lot of sections added automatically as status and timestamp      
+> to save deployment status from ETCD into a file <code>kubectl get deployment nginx-deployment -o yaml > [fileName]</code>. Warning, if u want to use a deployment based on the outputFile from k8s/ETCD its required to remove all data auto-genereted by k8s which isn't something suggested to do in practice as there are a lot of sections added automatically as status and timestamp
+- for deleting components<code>kubectl delete -f [k8s-config-file-name]</code>, e.g. <code>kubectl delete -f .\nginx-service.yml</code> and <code>kubectl delete -f .\nginx-deployment.yml</code>      
 
