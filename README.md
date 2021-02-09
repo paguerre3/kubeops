@@ -315,10 +315,9 @@ service/mongoexpress-service created</code></pre>
 - Service=<code>spec</code>:<code>type: LoadBalancer</code> makes the "External"Service. This is considered a bad name for <code>type</code> because InternalService also loads and balances requests. <code>LoadBalancer</code> accepts external requests by assigning an "external" IP to the Service. Important, its also necessary to add a <code>nodePort</code> inside Service=<code>spec</code>:<code>ports</code> section that refers to the "external" port to be accessed from browser but it only has a "valid range" of assignment, i.e. 30000-32767!
 - <code>ClusterIP</code> is the default type for InternalService that provides an "internal" service IP while <code>LoadBalancer</code> provides "external" IP and also internal IP (both) for the ExternalService, e.g. <pre><code>kubectl get service
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
-kubernetes             ClusterIP      10.96.0.1        <none>        443/TCP          47h
-mongodb-service        ClusterIP      10.97.179.81     <none>        27017/TCP        6h10m
-mongoexpress-service   LoadBalancer   10.108.230.111   <pending>     8081:30000/TCP   16m --> it only shows "pending" EXTERNAL IP because of the usage of Minikube (using k8s directly should display external IP right away)</code></pre>
+kubernetes             ClusterIP      10.96.0.1        \<none\>        443/TCP          47h
+mongodb-service        ClusterIP      10.97.179.81     \<none\>        27017/TCP        6h10m
+mongoexpress-service   LoadBalancer   10.108.230.111   \<pending\>     8081:30000/TCP   16m --> it only shows "pending" EXTERNAL IP because of the usage of Minikube (using k8s directly should display external IP right away)</code></pre>
 
 **NOTE**
-> 6="only for Minikube" is needed to additionally execute "manually" <code>minikube service mongoexpress-service</code> so Minikube assigns the external IP to the ExternalService of mongoexpress already defined, e.g. using docker driver and tunneling 
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/16-minikube-assign-external-ip.PNG" width="48%" height="30%">
+> 6="only for Minikube" is needed to additionally execute "manually" <code>minikube service mongoexpress-service</code> so Minikube assigns the external IP to the ExternalService of mongoexpress already defined, e.g. using docker driver and tunneling <img src="https://github.com/paguerre3/kubeops/blob/main/support/16-minikube-assign-external-ip.PNG" width="48%" height="30%">
