@@ -291,14 +291,14 @@ status:
 
 **NOTE**
 > <code>kubectl get all</code> returns all components in k8s  
-1. create Secret for user and password of mongodb so credentials aren't set in plain text under Deployment, i.e. Secret must be created before the Deployment if referenced inside of it (order of creation matters!). A Secret is usually stored in a secured pace different than the Depoyment respository. Warning, storing the data in Secret component doesn't automatically make it secure, there are built-in mechanism (like encryption) for basic security that aren't set by default. Values stored in key/value section of Secret should be written in bas64 encoding format, e.g. <code>echo -n 'username' | base64</code> and <code>echo -n 'password' | base64</code>. e.g. [mongo Secret](https://github.com/paguerre3/kubeops/blob/main/mongo-secret.yml) + execution <pre><code>kubectl apply -f .\mongo-secret.yml
+- 1=create Secret for user and password of mongodb so credentials aren't set in plain text under Deployment, i.e. Secret must be created before the Deployment if referenced inside of it (order of creation matters!). A Secret is usually stored in a secured pace different than the Depoyment respository. Warning, storing the data in Secret component doesn't automatically make it secure, there are built-in mechanism (like encryption) for basic security that aren't set by default. Values stored in key/value section of Secret should be written in bas64 encoding format, e.g. <code>echo -n 'username' | base64</code> and <code>echo -n 'password' | base64</code>. e.g. [mongo Secret](https://github.com/paguerre3/kubeops/blob/main/mongo-secret.yml) + execution <pre><code>kubectl apply -f .\mongo-secret.yml
 secret/mongodb-secret created</code></pre>
 
 **NOTE**
 > <code>kubectl get secret</code> shows secret created
-2. create Deployment yaml, e.g. [mongo Deployment](https://github.com/paguerre3/kubeops/blob/main/mongo-deployment.yml) + execution <pre><code>kubectl apply -f .\mongo-deployment.yml
+- 2=create Deployment yaml, e.g. [mongo Deployment](https://github.com/paguerre3/kubeops/blob/main/mongo-deployment.yml) + execution <pre><code>kubectl apply -f .\mongo-deployment.yml
 deployment.apps/mongodb-deployment created</code></pre>
 
 **NOTE**
 > <code>kubectl get pod --watch</code> to observe progress of pod creation
-3. create InternalService other commponents can talk "internally" to mongodb, like mongoexpress.
+- 3=create InternalService so other commponents can talk "internally" to mongodb, like mongoexpress.
