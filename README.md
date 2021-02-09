@@ -301,4 +301,10 @@ deployment.apps/mongodb-deployment created</code></pre>
 
 **NOTE**
 > <code>kubectl get pod --watch</code> to observe progress of pod creation
-- 3=create InternalService so other commponents can talk "internally" to mongodb, like mongoexpress.
+- 3=create InternalService so other commponents can talk "internally" to mongodb, like mongoexpress. Recommendation is to place InternalService into the same yamel of the Deployment as they usually belong together, i.e. rename <code>mongo-deployment-yml</code> to <code>mongo.yml</code>, e.g. [mongo Deployment + InternalService](https://github.com/paguerre3/kubeops/blob/main/mongo.yml) and execution <pre><code> kubectl apply -f .\mongo.yml
+deployment.apps/mongodb-deployment unchanged --> deployment haven't been changed, only Service was added 
+service/mongodb-service created</code></pre>
+
+**NOTE**
+> <code>kubectl get all | grep mongodb</code> to filter output results by "mongodb" in unix like OOSS. <code>kubectl get all -o wide</code> to show more details including IPs
+-   

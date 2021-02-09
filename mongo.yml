@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+# k8s config file type
+kind: Deployment
+metadata:
+  # deployment name
+  name: mongodb-deployment
+  # service selector matches with depl. label
+  labels:
+    app: mongodb
+spec:
+  replicas: 1
+  selector: 
+    # depl. selector label matches with template/pod label 
+    matchLabels:
+      app: mongodb
+  # blue print of the Pod
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo
+        # it matches with Service targetPort
+        ports:
+        - containerPort: 27017
+        # environmnt variables section.
+        # user and password shouldn't be expossed directly in yamel,
+        # so a Secret is created 1st to reference
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongo-root-username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongo-root-password
+---
+apiVersion: v1
+# k8s config file type
+kind: Service
+metadata:
+  # deployment name
+  name: mongodb-service
+spec:
+  selector: 
+    # service selector matches with deployment label
+    app: mongodb
+  # port is the exposed port used for receiving request from other service/pods
+  # targetPort is the one that matches with pod/containerPort
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
