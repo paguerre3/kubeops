@@ -321,4 +321,8 @@ mongoexpress-service   LoadBalancer   10.108.230.111   \<pending\>     8081:3000
 
 **NOTE**
 > 6="only for Minikube" (because it shows "pending") is needed to additionally execute "manually" <code>minikube service mongoexpress-service</code> so Minikube assigns the external IP to the ExternalService of mongoexpress already defined, e.g. using docker driver and tunneling
-> <img src="https://github.com/paguerre3/kubeops/blob/main/support/16-minikube-assign-external-ip.PNG" width="48%" height="30%">
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/16-minikube-assign-external-ip.PNG" width="48%" height="30%">
+
+
+---
+# k8s namespaces
