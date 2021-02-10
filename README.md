@@ -359,7 +359,7 @@ namespace/my-namespace created</code></pre>
 - Some components can't be created within a namespace because they live globally in k8s cluster, e.g. Volume/persistent-volume and Node resources. To check the complete list of components that can't be bouded to an specific namespace <code>kubectl api-resources --namespaced=false</code> and to check the resources that are admitted to be created by namespace its used the "same command" but with flag enabled <code>--namespaced=true</code>
 
 **NOTE**
-> for the use case of having one team assigned to an specific namespace entirely it might be useful to change the "active" default namespace so there is no need of specifying it in command line, e.g. for avoiding doing <code>kubectl get pod -n [namespace]</code>. The tool out of the box named "kubens" is used for switching the active NS while "kubectx" is used for swithing cluster contexts (once kubectx is installed it comes with kubens), e.g. <code>kubens [namespace]</code> switches to [namespace] as active
+> for the use case of having one team assigned to an specific namespace entirely it might be useful to change the "active" default namespace so there is no need of specifying it in command line, e.g. for avoiding doing <code>kubectl get pod -n [namespace]</code>. The tool out of the box named "kubens" is used for switching the active NS while "kubectx" is used for switching cluster contexts (once kubectx is installed it comes with kubens), e.g. <code>kubens [namespace]</code> switches to [namespace] as active
 
 
 ---
