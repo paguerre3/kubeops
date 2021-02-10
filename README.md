@@ -345,13 +345,22 @@ KubeDNS is running at https://127.0.0.1:49153/api/v1/namespaces/kube-system/serv
 namespace/my-namespace created</code></pre> 
 ... and then do the reference in related components under <code>metadata</code>:<code>namespace</code> section
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/17-namespace-in-configfile.PNG" width="28%" height="30%">
+
 - Use cases: 1=Structure/Grouping by kind of resource, e.g. database, monitoring and nginx, 2=Avoid conflicts of many teams using the same application, i.e. group components by teams, e.g. ProjectA and ProjectB so configuration files aren't overwritten during deployment, 3.A=Resource sharing, i.e. sharing a group of resources into different environments, e.g. sharing nginx or monitoring stack namespaces into Development and Staging environment as those are common resources that sometimes can be shared, 3.B=Resource sharing in case of Blue/Green deployment, i.e. having in production "current" and "next" release clusters (both running at the same time) sharing common resources as nginx and monitoring, 4=access and resource limits, i.e. resources limited by teams so they have their own secured/isolated environment and therefore they can't delete configurations of other projects, e.g. ProjectA can't create nor delete configurations of ProjectB, and additionally, each project can set its own limits of CPU, RAM and storage per NS so their costs can be monitored separately, e.g. ResourceQuota-ProjectA and ResourceQuota-ProjectB   
 
 **NOTE**
 > Small projects with less than 10 users don't require the use of namespaces
 - Namespace characteristics: a namespace "can't access most resources" from another namespace, e.g. ConfigMap/Secret for Services of one namespace that access a Database can't be reused in another namespace even if they point to the same Component, i.e. important, each namespace must define its own ConfigMap or Secret!
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/18-each-namespace-has-own-configmap.PNG" width="48%" height="30%">
+
 - Services are components "allowed" to be shared among resources of other namespaces, e.g. Services can be referenced from a ConfigMap of another NS by specifying the namespace "prefix" in the value section of the ConfigMap=<code>data</code>:<code>custom-key</code> section
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/19-service-shared-among-namespaces.PNG" width="48%" height="30%">
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/19-service-shared-among-namespaces.PNG" width="73%" height="70%">
+
 - Some components can't be created within a namespace because they live globally in k8s cluster, e.g. Volume/persistent-volume and Node resources. To check the complete list of components that can't be bouded to an specific namespace <code>kubectl api-resources --namespaced=false</code> and to check the resources that are admitted to be created by namespace its used the "same command" but with flag enabled <code>--namespaced=true</code>
--      
+
+**NOTE**
+> for the use case of having one team assigned to an specific namespace entirely it might be useful to change the "active" default namespace so there is no need of specifying it in command line, e.g. for avoiding doing <code>kubectl get pod -n [namespace]</code>. The tool out of the box named "kubens" is used for switching the active NS while "kubectx" is used for swithing cluster contexts (once kubectx is installed it comes with kubens), e.g. <code>kubens [namespace]</code> switches to [namespace] as active
+
+
+---
+# k8s ingress        
