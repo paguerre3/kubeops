@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: my-app-ingress
+spec:
+  # routing rules forward requests from Host to InternalService
+  rules:
+  - host: my-app.com
+    # http doesn't define "external protocol" of public URL, e.g. https or http of my-domain,
+    # instead it defines the "internal protocol" used for forwarding requests to InternalService
+    http:
+      # paths also holds anything that is displayed after host domain, e.g. resources path.
+      # port mapps with InternalService port and not targetPort/node nor nodePort/exernalIP (when LoadBalancer type of ExternalService)
+      paths:
+      - backend:
+          serviceName: my-app-internal-service
+          port: 8080
