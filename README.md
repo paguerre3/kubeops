@@ -364,8 +364,9 @@ namespace/my-namespace created</code></pre>
 
 ---
 # k8s ingress
-- Ingress is used in real production environments where having ExternalService for expossing "external" IP isn't adequate, i.e. normally an application is accessed settiing its dns name and secured port through the client browser, e.g.
+- Ingress is used in real production environments where having ExternalService for expossing "external" IP isn't adequate, i.e. normally an application is accessed setting its domain name and secured port through the client browser, e.g.
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/20-ingress.PNG" width="48%" height="30%">
 
 **NOTE**
-> please notice the request received by the Ingress is then forwarded to an InternalServices that will finally communicate with the Pod            
+> please notice the request received by the Ingress is then forwarded to an InternalServices that will finally communicate with the Pod
+-             
