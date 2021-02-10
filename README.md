@@ -343,5 +343,5 @@ KubeDNS is running at https://127.0.0.1:49153/api/v1/namespaces/kube-system/serv
 - namespace creation command <code>kubectl create namespace [namespace]</code>
 - another way of creating namespaces is using a configuration file, e.g. [my\-namespace](https://github.com/paguerre3/kubeops/blob/main/namespace.yml) and execution <pre><code>kubectl apply -f .\namespace.yml
 namespace/my-namespace created</code></pre> 
-... and then do the reference in related components under <metadata> section
+... and then do the reference in related components under <code>metadata</code>:<code>namespace</code> section
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/17-namespace-in-configfile.PNG" width="28%" height="30%">
