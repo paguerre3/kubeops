@@ -326,3 +326,22 @@ mongoexpress-service   LoadBalancer   10.108.230.111   \<pending\>     8081:3000
 
 ---
 # k8s namespaces
+- resources can be organized by namespaces, e.g. services from different business units or teams
+- namespace is a virtual cluster inside of a k8s cluster
+- check namespaces<pre><code>kubectl get namespace
+NAME              STATUS   AGE
+default           Active   2d3h
+kube-node-lease   Active   2d3h
+kube-public       Active   2d3h
+kube-system       Active   2d3h</code></pre>
+- kube-system=a k8s user should never create or update anything from it as it holds System processes, i.e. Master and Kubectl processes
+- kube-public=it contains public accessible data. It has a ConfigMap that contains cluster information that can be accessed even without authentication, e.g. <pre><code>kubectl cluster-info
+Kubernetes master is running at https://127.0.0.1:49153
+KubeDNS is running at https://127.0.0.1:49153/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy</code></pre> 
+- kube-node-lease=it holds information about heart-beats of Nodes. Each Node has associated lease/contact object (heart-beat) in namespace that informs Availability information of it
+- default=resources created without defining any namespace are placed under this location
+- namespace creation command <code>kubectl create namespace [namespace]</code>
+- another way of creating namespaces is using a configuration file, e.g. [my\-namespace](https://github.com/paguerre3/kubeops/blob/main/namespace.yml) and execution <pre><code>kubectl apply -f .\namespace.yml
+namespace/my-namespace created</code></pre> 
+... and then do the reference in related components under <metadata> section
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/17-namespace-in-configfile.PNG" width="28%" height="30%">
