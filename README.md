@@ -326,7 +326,7 @@ mongoexpress-service   LoadBalancer   10.108.230.111   \<pending\>     8081:3000
 
 ---
 # k8s namespaces
-- resources can be organized by namespaces, e.g. services from different business units or teams
+- resources can be organized by namespaces, e.g. services from different business units or kind of resources 
 - namespace is a virtual cluster inside of a k8s cluster
 - check namespaces<pre><code>kubectl get namespace
 NAME              STATUS   AGE
@@ -345,3 +345,7 @@ KubeDNS is running at https://127.0.0.1:49153/api/v1/namespaces/kube-system/serv
 namespace/my-namespace created</code></pre> 
 ... and then do the reference in related components under <code>metadata</code>:<code>namespace</code> section
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/17-namespace-in-configfile.PNG" width="28%" height="30%">
+- Use cases: 1=Grouping by kind of resource, e.g. database, monitoring and nginx, 2=conflicts of many teams using the same application, i.e. group components by teams, e.g. ProjectA and ProjectB so configuration files aren't overwritten during deployment, 3.A=Resource sharing, i.e. sharing a group of resources into different environments, e.g. sharing nginx or monitoring stack namespaces into Development and Staging environment as those are common resources that sometimes can be shared, 3.B=Resource sharing in case of Blue/Green deployment, i.e. having in production "current" and "next" release clusters (both running at the same time) sharing common resources as nginx and monitoring, 4=access and resource limits, i.e. resources limited by teams that have their own secured/isolated environment so they can't delete configurations of other projects, e.g. ProjectA can't create nor delete configurations of ProjectB   
+
+**NOTE**
+> Small projects with less than 10 users don't require the use of namespaces
