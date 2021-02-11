@@ -417,15 +417,12 @@ my-namespace           Active   25h</code></pre>
 NAME                                            READY   STATUS    RESTARTS   AGE
 pod/dashboard-metrics-scraper-c95fcf479-kk692   1/1     Running   0          25m
 pod/kubernetes-dashboard-6cff4c7c4f-9vpvg       1/1     Running   0          25m
-
 NAME                                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
 service/dashboard-metrics-scraper   ClusterIP   10.100.171.241   none          8000/TCP   25m
 service/kubernetes-dashboard        ClusterIP   10.99.44.121     none          80/TCP     25m
-
 NAME                                        READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/dashboard-metrics-scraper   1/1     1            1           25m
 deployment.apps/kubernetes-dashboard        1/1     1            1           25m
-
 NAME                                                  DESIRED   CURRENT   READY   AGE
 replicaset.apps/dashboard-metrics-scraper-c95fcf479   1         1         1       25m
 replicaset.apps/kubernetes-dashboard-6cff4c7c4f       1         1         1       25m</code></pre>
@@ -434,6 +431,6 @@ Warning: networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable 
 ingress.networking.k8s.io/dashboard-ingress created</code></pre>
 - check Ingress rule creation<pre><code> kubectl get ingress -n kubernetes-dashboard
 NAME                CLASS    HOSTS           ADDRESS        PORTS   AGE
-dashboard-ingress   <none>   dashboard.com   192.168.49.2   80      3m7s</code></pre>
+dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code></pre>
 - 4=emulate "entry point" that behaves as a Proxy in front of IngressController outside k8s cluster so IngressController can use "dashboard" Ingress rule to evaluate and manage redirection (forwarding requests to "dashboard" InternalService), i.e. go to "hosts" file of os and create dns rule that matches with HOST and IP address of dashboard-ingress, e.g. 
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/25-hosts-as-proxy.PNG" width="73%" height="70%">
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/25-hosts-as-proxy.PNG" width="43%" height="40%">
