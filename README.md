@@ -384,4 +384,21 @@ namespace/my-namespace created</code></pre>
 > The advantage of using a Cloud Provider is that the user doesn't need to create a "custom" Load Balancer so the setup is simplified. Doing a "bare metal" deployment requires some kind of "entry point" configuration that, as mentioned, can be placed "outside" or "inside" the cluster, e.g. a Proxy Server entry-point outside k8s cluster or a Node IP entry-point
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/24-ingress-controller-bare-metal-proxy.PNG" width="48%" height="30%">
 
--       
+- 1=install IngressController in Minikube so Ingress can work, i.e. it automatically starts the Nginx implementation of IngressController<pre><code>minikube addons enable ingress
+\* After the addon is enabled, please run "minikube tunnel" and your ingress resources would be available at "127.0.0.1"
+\* Verifying ingress addon...
+\* The 'ingress' addon is enabled</code></pre>
+- 1.B="at the end" enable tunneling if needed for testing purposes<code>minikube tunnel</code>
+- 1.C=check Nginx IngressController is running under "kube-system" NS<pre><code>kubectl get pod -n kube-system
+NAME                                        READY   STATUS      RESTARTS   AGE
+coredns-74ff55c5b-67w9j                     1/1     Running     6          3d4h
+etcd-minikube                               1/1     Running     6          3d4h
+ingress-nginx-admission-create-dcxqv        0/1     Completed   0          12m
+ingress-nginx-admission-patch-rk9kq         0/1     Completed   0          12m
+ingress-nginx-controller-558664778f-dr57v   1/1     Running     0          12m
+kube-apiserver-minikube                     1/1     Running     6          3d4h
+kube-controller-manager-minikube            1/1     Running     6          3d4h
+kube-proxy-xqrnr                            1/1     Running     6          3d4h
+kube-scheduler-minikube                     1/1     Running     6          3d4h
+storage-provisioner                         1/1     Running     12         3d4h</code></pre>
+- 
