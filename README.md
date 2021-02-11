@@ -375,4 +375,11 @@ namespace/my-namespace created</code></pre>
 **NOTE**
 > <code>host</code> present in <code>routes</code> of Ingress should be a valid domain address. Important, <code>host</code> maps domain name to a Node's IP address which is considered the "entry point" OR, alternatively, <code>host</code> maps domain name to a server outside of k8s cluster that acts like a Proxy or Secured Gateway that behaves as "entry point", i.e. Ingress will receive request from the internal or external "entry point"/host and then it will forward to InternalService
 - In order to work Ingress needs an "implementation" of it which is an IngressController Pod or set of Pods, i.e. IngressController runs on Pod or a Set of Pods of a Node in k8s cluster and does the "evaluation and processing" of Ingress rules. In other words IngressController is the "entry point" of k8s cluster that evaluates all rules and manages redirections. There are many third-party implementations of IngressControllers and k8s also offers its own implementation which is "Nginx" IngressController therefore it needs to be installed so Ingress can function
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/22-ingress-controller.PNG" width="48%" height="30%">         
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/22-ingress-controller.PNG" width="48%" height="30%">
+
+- is important to understand the environment on which the cluster runs, i.e. if k8s cluster runs under a Cloud Service Provider like AWS or Google Cloud that have out-of-the-box kubernetes solutions or that use their own virtualized load balancer then there is normally a Cloud Provider "Load Balancer" placed in front of k8s cluster that behaves as a Secured Load Balancer "entry point" that receives and forwards requests to the IngresController of k8s, e.g.
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/23-ingress-controller-cloud-provider.PNG" width="48%" height="30%">
+
+**NOTE**
+- The advantage of using a Cloud Provider is that the user doesn't need to create a "custom" Load Balancer so the setup is simplified. Doing a "bare metal" deployment requires some kind of "entry point" configuration that, as mentioned, can be placed "outside" or "inside" the cluster, e.g. a Proxy Server entry-point outside k8s cluster or a Node IP entry-point
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/24-ingress-controller-bare-metal-proxy.PNG" width="48%" height="30%">      
