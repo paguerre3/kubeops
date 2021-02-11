@@ -384,12 +384,12 @@ namespace/my-namespace created</code></pre>
 > The advantage of using a Cloud Provider is that the user doesn't need to create a "custom" Load Balancer so the setup is simplified. Doing a "bare metal" deployment requires some kind of "entry point" configuration that, as mentioned, can be placed "outside" or "inside" the cluster, e.g. a Proxy Server entry-point outside k8s cluster or a Node IP entry-point
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/24-ingress-controller-bare-metal-proxy.PNG" width="48%" height="30%">
 
-- 1.A=install IngressController in Minikube so Ingress can work, i.e. it automatically starts the Nginx implementation of IngressController<pre><code>minikube addons enable ingress
+- 1=install IngressController in Minikube so Ingress can work, i.e. it automatically starts the Nginx implementation of IngressController<pre><code>minikube addons enable ingress
 \* After the addon is enabled, please run "minikube tunnel" and your ingress resources would be available at "127.0.0.1"
 \* Verifying ingress addon...
 \* The 'ingress' addon is enabled</code></pre>
-- 1.B="at the end of all steps" enable tunneling if needed for testing purposes<code>minikube tunnel</code>
-- 1.C=check Nginx IngressController is running under "kube-system" NS<pre><code>kubectl get pod -n kube-system
+- "at the end of all steps" enable tunneling if needed for testing purposes<code>minikube tunnel</code>
+- check Nginx IngressController is running under "kube-system" NS<pre><code>kubectl get pod -n kube-system
 NAME                                        READY   STATUS      RESTARTS   AGE
 coredns-74ff55c5b-67w9j                     1/1     Running     6          3d4h
 etcd-minikube                               1/1     Running     6          3d4h
@@ -404,5 +404,36 @@ storage-provisioner                         1/1     Running     12         3d4h<
 - 2=enable k8s dashboard and metrics-server (dependency of dashboard) in Minikube to do a Demo of Ingress configuration, i.e. execute <code>minikube addons enable dashboard</code> and then <code>minikube addons enable metrics-server</code>. To check the list of Minikube enabled addons <code>minikube addons list</code>
 
 **NOTE**
-> 
-- 3= 
+> k8s dashboard has InternalService and Pod already configured but it doesn't have a Ingress/IngressController enabled
+- check NS in order to visualize the one associated to the dashboard<pre><code>kubectl get namespace
+NAME                   STATUS   AGE
+default                Active   3d5h
+kube-node-lease        Active   3d5h
+kube-public            Active   3d5h
+kube-system            Active   3d5h
+kubernetes-dashboard   Active   23m
+my-namespace           Active   25h</code></pre>
+- check configurations filtered by dashboard NS (Ingress "rule" configuration isn't present)<pre><code>kubectl get all -n kubernetes-dashboard
+NAME                                            READY   STATUS    RESTARTS   AGE
+pod/dashboard-metrics-scraper-c95fcf479-kk692   1/1     Running   0          25m
+pod/kubernetes-dashboard-6cff4c7c4f-9vpvg       1/1     Running   0          25m
+
+NAME                                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/dashboard-metrics-scraper   ClusterIP   10.100.171.241   none          8000/TCP   25m
+service/kubernetes-dashboard        ClusterIP   10.99.44.121     none          80/TCP     25m
+
+NAME                                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/dashboard-metrics-scraper   1/1     1            1           25m
+deployment.apps/kubernetes-dashboard        1/1     1            1           25m
+
+NAME                                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/dashboard-metrics-scraper-c95fcf479   1         1         1       25m
+replicaset.apps/kubernetes-dashboard-6cff4c7c4f       1         1         1       25m</code></pre>
+- 3=create Ingress "rule" resource for k8s dashboard, i.e. [dashboard Ingress](https://github.com/paguerre3/kubeops/blob/main/dashboard-ingress.yml) and execute <pre><code>kubectl apply -f .\dashboard-ingress.yml
+Warning: networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+ingress.networking.k8s.io/dashboard-ingress created</code></pre>
+- check Ingress rule creation<pre><code> kubectl get ingress -n kubernetes-dashboard
+NAME                CLASS    HOSTS           ADDRESS        PORTS   AGE
+dashboard-ingress   <none>   dashboard.com   192.168.49.2   80      3m7s</code></pre>
+- 4=emulate "entry point" that behaves as a Proxy in front of IngressController outside k8s cluster so IngressController can use "dashboard" Ingress rule to evaluate and manage redirection (forwarding requests to "dashboard" InternalService), i.e. go to "hosts" file of os and create dns rule that matches with HOST and IP address of dashboard-ingress, e.g. 
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/25-hosts-as-proxy.PNG" width="73%" height="70%">
