@@ -381,5 +381,7 @@ namespace/my-namespace created</code></pre>
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/23-ingress-controller-cloud-provider.PNG" width="48%" height="30%">
 
 **NOTE**
-- The advantage of using a Cloud Provider is that the user doesn't need to create a "custom" Load Balancer so the setup is simplified. Doing a "bare metal" deployment requires some kind of "entry point" configuration that, as mentioned, can be placed "outside" or "inside" the cluster, e.g. a Proxy Server entry-point outside k8s cluster or a Node IP entry-point
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/24-ingress-controller-bare-metal-proxy.PNG" width="48%" height="30%">      
+> The advantage of using a Cloud Provider is that the user doesn't need to create a "custom" Load Balancer so the setup is simplified. Doing a "bare metal" deployment requires some kind of "entry point" configuration that, as mentioned, can be placed "outside" or "inside" the cluster, e.g. a Proxy Server entry-point outside k8s cluster or a Node IP entry-point
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/24-ingress-controller-bare-metal-proxy.PNG" width="48%" height="30%">
+
+-       
