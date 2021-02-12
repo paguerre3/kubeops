@@ -483,11 +483,11 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 - Storage needs to survive even if k8s cluster crashes
 - Persistance storage also applies for writting/reading directories, e.g. a folder path
 - Persistent Volume is a k8s cluster resource, like RAM or CPU, used to "store" data
-- PersistentVolume gets created from a yamel file, i.e. <code>kind: PersistentVolume</code> and its <code>spec</code> defines how much storage, e.g.
+- PersistentVolume gets created from a yamel file, i.e. <code>kind: PersistentVolume</code> and its <code>spec</code> defines how much storage to "use", e.g.
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/33-persistent-volume.PNG" width="48%" height="30%">
 
 - PersistentVolume needs physical storage, e.g. local disk, NFS (Network File System) server for distributed storage or Cloud-storage (aws block storage or google cloud store)
-- k8s doesn't care about the technology of the actual storage and its location as it provides PersistentVolume as an interface to access the actual storage, i.e. the administrator of the storage is resposible for configuring it besides using k8s. The administrator will decide the type of storage, and then it will create and manage it, e.g. deciding the backups mechanism and ensuring that it won't be corrupted. In other words, storage in k8s is an "external" plugin into the cluster
+- k8s doesn't care about the technology of the actual storage and its location as it provides PersistentVolume as an interface to access the actual storage, i.e. the administrator of the storage is responsible for configuring it besides using k8s. The administrator will decide the type of storage, and then it will create and manage it, e.g. deciding the backup mechanism and ensuring that it won't be corrupted. In other words, storage in k8s is an "external" plugin into the cluster
 - k8s allows multiple Pods/applications to use different type of storages from the same cluster, e.g. 
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/34-multiple-storages.PNG" width="48%" height="30%">
 
@@ -501,8 +501,8 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 
 **NOTE**
 > "Node affinity" exists when the local storage refers to a Pod of the same k8s cluster
-- Important, Persistent Valumes are not Namespaced, i.e. they are not linked to a particular namespace as they are accsessible to the whole k8s cluster
-- Warning, Local vs Remote types. Each volume type supprts its own "use case" but Local type violates some of the requirements previously explained, i.e. Local storage (it has Node affinity) violates being tied to an specific Node and therefore surviving to cluster crashes. In summary, for data base persistance is recommended to use Remote storage!
+- Important, Persistent Volumes are not Namespaced, i.e. they are not linked to a particular namespace as they are accessible to the whole k8s cluster
+- Warning, Local vs Remote types. Each volume type supports its own "use case" but Local type violates some of the requirements previously explained, i.e. Local storage (it has Node affinity) violates being tied to an specific Node and therefore surviving to cluster crashes. In summary, for data base persistance is recommended to use Remote storage!
 -         
 
 
