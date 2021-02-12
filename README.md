@@ -523,7 +523,13 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/41-persistent-volume-mounts.PNG" width="73%" height="70%">
 
 **NOTE**
-> In the special case of having multiple containers inside the same Pod, is also possible to define if the Volume can be mounted to all the containers inside the same Pod or just to some of them
+> In the case of having multiple containers inside the same Pod, is also possible to define if the Volume can be mounted to all the containers inside the same Pod or just to some of them
+- ConfigMap and Secret are considered "special cases" of Volumes are they are Local volumes not created via PersistentVolume (PV) and PVC (PersistentVolumeClaim) which are managed by k8s. In a similar sense compared to PV/PVC, they can be mounted as a local volume  if needed, e.g.
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/42-mount-configmap-secret.PNG" width="73%" height="70%">
+
+- [types of volumes](https://www.tutorialspoint.com/kubernetes/kubernetes_volumes.htm)
+- a Pod/application might have mounted "multiple types" of Volumes, e.g. elastic-app
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/43-pod-with-multiple-volumes.png" width="73%" height="70%">
 
 
 
