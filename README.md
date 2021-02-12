@@ -453,8 +453,31 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 
 
 ---
-# Helm package manager
+# helm package manager
 - Helm is a package manager (e.g. apt or yum) for k8s yamels, i.e. is a convenient manner for Packaging yamel files and distribute them in public and private repositories, e.g. Elastick Stack for Logging (including "all yamel files"=StatefulSet, ConfigMap, k8s user with permissions, Secret and Services related to the same Elastick namespace) is packaged in a repository as its considered a common solution/standard that can be reused in different k8s clusters 
-- The bundle of yamel files (package) is called Helm Charts, i.e. using Helm developers create their own Helm Charts (bundle of yamel files), push them to Helm Repositories, and download them so Helm Charts can be reused easily by others, e.g. database applications as mongodb, elasticksearch and mysql, or monitoring applications like prometheus, they are all available as Helm Charts in Helm Repositories
+- The bundle of yamel files (package) is called Helm Charts, i.e. using Helm, developers create their own Helm Charts (bundle of yamel files), push them into Helm Repositories, and download them so Helm Charts can be reused easily by others, e.g. database applications as mongodb, elasticksearch and mysql, or monitoring applications like prometheus, they are all available as Helm Charts in Helm Repositories
 - check Helm Charts in [helm hub](https://helm.sh/docs/helm/helm_search_hub/)
+- Helm is also considered a Templating Engine as all yamels of Deployment and Service configuration files (e.g. for building Pods of microservices) are pretty similar in their Structure (they mainly differ in docker Image reference secion for selecting Image:version-tag to download and their label names) therefore without Helm k8s users need to write each Deployment.yml separatelly (including its Service definition usually inside Deployment), i.e. using Helm helps developers so they define a common "blue print" (template yamel) and then only "dynamic values" are replaced by Placeholders so there is no need of writting so many yamel files, e.g.
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/29-helm-template.PNG" width="73%" height="70%">   
+
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/30-helm-template-values.PNG" width="73%" height="70%">
+
+**NOTE**
+> Helm is useful within CI / CD pipelines because in the builds the values of the Template.yml file can be replaced "on the fly" by the values.yml Placeholders
+- Another use case is using the same application across different environments (k8s clusters), e.g. k8s cluster of Development, Staging and Production could share the same Helm Chart (deployment bundle) so the "same" package can be deployed/re-used under different environments executing just one command
+- Helm structure has a <code>top level folder</code> with the name of the chart, <code>Chart.yml</code> with meta-info of chart, <code>values.yml</code> containing default values to be replaced in the template, <code>charts</code> folder with dependencies from other charts, and <code>templates</code> folder that has all the template files of the chart, i.e.
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/31-helm-chart-scrtucture.PNG" width="73%" height="70%">
+
+- command to install Chart into k8s <code>helm install [chart-name]</code>. It take template.yml files and fills them with values.yml, i.e. producing valid k8s manifests (blueprints) ready to be deployed in k8s. Optionally, Charts might include readme and license
+- default values.yml can be overriten during install command execution or using a command flag which is a less preferred option, e.g. <code>helm install -values=my-values.yml [chart-name]</code> will overritte only the values present in my-values.yml making a merge with values.yml default, i.e.
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/32-helm-values-override.PNG" width="73%" height="70%">
+
+**NOTE**
+> another feature of Helm is release management only for Helm 2 by deploying Tiller Server inside k8s cluster, which it was responsible for handling Charts release versions (providing stupport to upgrade and rollback of bundles) but Tiller was depcrecated in Helm 3 because of security concerns (too much power inside k8s, i.e. Tiller could create, update and delete components having too much permissions)
+
+
+---
+# kubernetes volumes  
+
+
 
