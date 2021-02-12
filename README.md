@@ -466,10 +466,10 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 > Helm is useful within CI / CD pipelines because in the builds the values of the Template.yml file can be replaced "on the fly" by the values.yml Placeholders
 - Another use case is using the same application across different environments (k8s clusters), e.g. k8s cluster of Development, Staging and Production could share the same Helm Chart (deployment bundle) so the "same" package can be deployed/re-used under different environments executing just one command
 - Helm structure has a <code>top level folder</code> with the name of the chart, <code>Chart.yml</code> with meta-info of chart, <code>values.yml</code> containing default values to be replaced in the template, <code>charts</code> folder with dependencies from other charts, and <code>templates</code> folder that has all the template files of the chart, i.e.
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/31-helm-chart-scrtucture.PNG" width="73%" height="70%">
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/31-helm-chart-structure.PNG" width="73%" height="70%">
 
 - command to install Chart into k8s <code>helm install [chart-name]</code>. It take template.yml files and fills them with values.yml, i.e. producing valid k8s manifests (blueprints) ready to be deployed in k8s. Optionally, Charts might include readme and license
-- default values.yml can be overriten during install command execution or using a command flag which is a less preferred option, e.g. <code>helm install -values=my-values.yml [chart-name]</code> will overritte only the values present in my-values.yml making a merge with values.yml default, i.e.
+- default values.yml can be overriden during install command execution or using a command flag which is a less preferred option, e.g. <code>helm install -values=my-values.yml [chart-name]</code> will overritte only the values present in my-values.yml making a merge with values.yml default, i.e.
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/32-helm-values-override.PNG" width="73%" height="70%">
 
 **NOTE**
