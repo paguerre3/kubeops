@@ -438,5 +438,15 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 - 5=open browser, write domain "dashboard.com" and check k8s dashboard. 
 
 **NOTE**
-> [hello example of Ingress "v1" latest-version](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/). Additionally, using "v1" latest api version of Ingress, in section Ingress=<code>spec</code> can be defined a <code>defaultBackend:</code> where a Service can be referenced/pointing to a Pod that responds with error codes in case of attempts to access resources inside the host that don't exist, i.e. it behaves as an "default-http-backend" Service that responds with meaningful error responses
-- 
+> [hello example of Ingress "v1" latest-version](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/). Additionally, using "v1" latest api version of Ingress, in section Ingress=<code>spec</code> can be defined a <code>defaultBackend:</code> where a Service can be referenced/pointing to a Pod that responds with error codes in case of attempts to access resources inside the host that don't exist, i.e. it behaves as a "default-http-backend" Service that responds with meaningful error responses
+- Ingress use cases offer: A. support of multiple paths for same host, i.e different resources/paths that map with different services/pods
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/26-ingress-same-host-multiple-paths.PNG" width="48%" height="30%">
+
+-B. multiple sub-domains or domains, i.e. each host represents a subdomain
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/27-multiple-domains.PNG" width="48%" height="30%">
+
+-B. configuring TLS certificate, i.e. configuring HTTPS protocol forwarding in Ingress, e.g. 
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/28-ingress-tls-certificate.PNG" width="73%" height="70%">
+
+**NOTE**
+> Secret stores certificate <code>tls.crt</code> and <code>tls.key</code> encoded in base64 "in situ", i.e. complete data is placed encoded in yamel instead of pointing to a reference location. Keys defined must be exactly like that (<code>tls.crt</code> and <code>tls.key</code>), not like most other secret mappings where the keys could be defined by the k8s user and, finally, Secret=<code>type: kubernetes.io/tls</code> (must be of kind "tls"). Warning, Secret must be placed in the same Namespace where the Ingress component is defined! 
