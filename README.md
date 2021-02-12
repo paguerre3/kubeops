@@ -434,3 +434,9 @@ NAME                CLASS    HOSTS           ADDRESS        PORTS   AGE
 dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code></pre>
 - 4=emulate "entry point" that behaves as a Proxy in front of IngressController outside k8s cluster so IngressController can use "dashboard" Ingress rule to evaluate and manage redirection (forwarding requests to "dashboard" InternalService), i.e. go to "hosts" file of os and create dns rule that matches with HOST and IP address of dashboard-ingress, e.g. 
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/25-hosts-as-proxy.PNG" width="43%" height="40%">
+
+- 5=open browser, write domain "dashboard.com" and check k8s dashboard. 
+
+**NOTE**
+> [hello example of Ingress "v1" latest-version](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/). Additionally, using "v1" latest api version of Ingress, in section Ingress=<code>spec</code> can be defined a <code>defaultBackend:</code> where a Service can be referenced/pointing to a Pod that responds with error codes in case of attempts to access resources inside the host that don't exist, i.e. it behaves as an "default-http-backend" Service that responds with meaningful error responses
+- 
