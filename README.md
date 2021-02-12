@@ -453,4 +453,8 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 
 
 ---
-# Helm package manager 
+# Helm package manager
+- Helm is a package manager (e.g. apt or yum) for k8s yamels, i.e. is a convenient manner for Packaging yamel files and distribute them in public and private repositories, e.g. Elastick Stack for Logging (including "all yamel files"=StatefulSet, ConfigMap, k8s user with permissions, Secret and Services related to the same Elastick namespace) is packaged in a repository as its considered a common solution/standard that can be used in different k8s clusters 
+- The bundle of yamel files (package) is called Helm Charts, i.e. using Helm developers create their own Helm Charts (bundle of yamel files), push them to Helm Repositories, and download them so Helm Charts can be reused easily by others, e.g. database applications as mongodb, elasticksearch and mysql, or monitoring applications like prometheus, they are all available as Helm Charts in Helm Repositories
+- check Helm Charts in [helm hub](https://helm.sh/docs/helm/helm_search_hub/)
+
