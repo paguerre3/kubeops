@@ -449,4 +449,8 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/28-ingress-tls-certificate.PNG" width="73%" height="70%">
 
 **NOTE**
-> Secret stores certificate <code>tls.crt</code> and <code>tls.key</code> encoded in base64 "in situ", i.e. complete data is placed encoded in yamel instead of pointing to a reference location. Keys defined must be exactly like that (<code>tls.crt</code> and <code>tls.key</code>), not like most other secret mappings where the keys could be defined by the k8s user and, finally, Secret=<code>type: kubernetes.io/tls</code> (must be of kind "tls"). Warning, Secret must be placed in the same Namespace where the Ingress component is defined! 
+> Secret stores certificate <code>tls.crt</code> and <code>tls.key</code> encoded in base64 "in situ", i.e. complete data is placed encoded in yamel instead of pointing to a reference location. Keys defined must be exactly like that (<code>tls.crt</code> and <code>tls.key</code>), not like most other secret mappings where the keys could be defined by the k8s user and, finally, Secret=<code>type: kubernetes.io/tls</code> (must be of kind "tls"). Warning, Secret must be placed in the same Namespace where the Ingress component is defined!
+
+
+---
+# Helm package manager 
