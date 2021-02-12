@@ -506,7 +506,7 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 - Life cycle: PersistentVolume needs to exist before the Pod that depends on it is created
 
 **NOTE**
-> K8s Administrators vs Users: k8s Aministrator sets up and mantain the cluster, i.e. it ensures it has enough resources. K8s Users deploys applications in cluster (directly or using a CI pipeline).
+> K8s Administrators vs Users: k8s Aministrator sets up and mantain the cluster, i.e. it ensures it has enough resources. K8s Users deploy applications in cluster (directly or using a CI pipeline).
 - 1=Storage resources are provisioned by k8s Administrator, e.g. it creates NFS Server or configures a Cloud Storage so they are available for the cluster, and then makes PersistentVolume components for "using" the existent physical Storage backends
 - 2=Later on, k8s Users/Developers will configure their applications/Pods for using the PersistentVolume, i.e. applications have to "claim" their PersistentVolume and for doing that k8s offers the PersistentVolumeClaim component. A PersistentVolumeClaim basically "claims" a Volume with an specific storage/usage and whatever PersistentVolume available that "matches the claim/satisfies the criteria" will be used, e.g. 
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/38-persistent-volume-claim.PNG" width="73%" height="70%">
@@ -523,7 +523,7 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/41-persistent-volume-mounts.PNG" width="73%" height="70%">
 
 **NOTE**
-> In the special case of having multiple containers inside the same Pod. is possible to define if the Volume can be mounted to all the containers inside the same Pod or just to some of them
+> In the special case of having multiple containers inside the same Pod, is also possible to define if the Volume can be mounted to all the containers inside the same Pod or just to some of them
 
 
 
