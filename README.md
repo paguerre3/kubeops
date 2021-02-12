@@ -503,6 +503,27 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 > "Node affinity" exists when the local storage refers to a Pod of the same k8s cluster
 - Important, Persistent Volumes are not Namespaced, i.e. they are not linked to a particular namespace as they are accessible to the whole k8s cluster
 - Warning, Local vs Remote types. Each volume type supports its own "use case" but Local type violates some of the requirements previously explained, i.e. Local storage (it has Node affinity) violates being tied to an specific Node and therefore surviving to cluster crashes. In summary, for data base persistance is recommended to use Remote storage!
--         
+- Life cycle: PersistentVolume needs to exist before the Pod that depends on it is created
+
+**NOTE**
+> K8s Administrators vs Users: k8s Aministrator sets up and mantain the cluster, i.e. it ensures it has enough resources. K8s Users deploys applications in cluster (directly or using a CI pipeline).
+- 1=Storage resources are provisioned by k8s Administrator, e.g. it creates NFS Server or configures a Cloud Storage so they are available for the cluster, and then makes PersistentVolume components for "using" the existent physical Storage backends
+- 2=Later on, k8s Users/Developers will configure their applications/Pods for using the PersistentVolume, i.e. applications have to "claim" their PersistentVolume and for doing that k8s offers the PersistentVolumeClaim component. A PersistentVolumeClaim basically "claims" a Volume with an specific storage/usage and whatever PersistentVolume available that "matches the claim/satisfies the criteria" will be used, e.g. 
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/38-persistent-volume-claim.PNG" width="73%" height="70%">
+
+- 3=finally, k8s User has to make the reference into the Pod pointing to the PersistentVolumeClaim (PVC), i.e. the Pod needs to have the reference to the PersistentVolumeClaim component, e.g.
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/39-persistent-volume-claim-pod-reference.PNG" width="73%" height="70%">
+
+**NOTE**
+> Warning, a PersistentVolumeClaim (PVC) must exist in the "same namespace" where the Pod that uses it is located!
+- levels of persistent volume abstractions
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/40-volumes-abstraction-levels.PNG" width="48%" height="30%">
+
+- Once the Claim (PVC "namespaced") is satisfied by a PersistentVolume (PV "global") then a Volume is mounted into the Pod that then is being mounted into the Container, e.g.
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/41-persistent-volume-mounts.PNG" width="73%" height="70%">
+
+**NOTE**
+> In the special case of having multiple containers inside the same Pod. is possible to define if the Volume can be mounted to all the containers inside the same Pod or just to some of them
+
 
 
