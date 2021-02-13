@@ -573,4 +573,7 @@ ${deployment name}-${random hash} e.g. myapp-c9e93d4e783165d</code></pre>
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/49-statefulset-2-endpoints.PNG" width="73%" height="70%">
 - Individual service names for SS Pods are made of<pre><code>${pod name}.${governing service domain} 
 e.g. mysql-0.svc2, mysql-1.svc2, mysql-2.svc2</code></pre>
-- In summary, when Pod restarts, IP address changes but its predictible name (e.g. myslq-1) and its fixed individual DNS name (e.g. mysql-1.svc2) stay! so these 2 characeristics build the complete "sticky" Identity concept that allows PersistentVolume (PV) re-attachment after any re-schedule, i.e. Sticky Identity ensures that each Pod can retain state and its role after re-creation  
+- In summary, when Pod restarts, IP address changes but its predictible name (e.g. myslq-1) and its fixed individual DNS name (e.g. mysql-1.svc2) stay! so these 2 characeristics build the complete "sticky" Identity concept that allows PersistentVolume (PV) re-attachment after any re-schedule, i.e. Sticky Identity ensures that each Pod can retain state and its role after re-creation
+
+**NOTE**
+> Administrator still needs to do a lot besides k8s help, e.g. configuring the clonning and data synchronization, make remote storage available, managing and back-up. StateFUL applications are not a perfect candidate for containerized environments while stateLESS applications are, therefore scaling stateLESS applications using docker/k8s is simpler because they are meant for it      
