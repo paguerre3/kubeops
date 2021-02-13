@@ -565,5 +565,7 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 
 **NOTE**
 > the re-attachement process is guaranteed via Remote physical storage only as using local storage inside the cluster + pod affinity causes data loss (not recommended by a database use case) 
-- StatefulSet (SS) identity is made of "fixed ordered names" while Deployment is a random hash, i.e. <code>${statefulset name}-${ordinal} e.g. mysql-0 (Master), mysql-1 (Slave), mysql-2 (Slave)</code> vs <code>${deployment name}-${random hash} e.g. myapp-c9e93d4e783165d</code>. 
+- StatefulSet (SS) identity is made of "fixed ordered names" while Deployment is a random hash, i.e. <pre><code>${statefulset name}-${ordinal} e.g. mysql-0 (Master), mysql-1 (Slave), mysql-2 (Slave) 
+vs 
+${deployment name}-${random hash} e.g. myapp-c9e93d4e783165d</code></pre>
 - Important, a StatefulSet (SS) Pod will only be created if the previous one is "up-and-running" as SS Pods are created in sequential order (from 0 to N). The same occurs with deletion but in reverse order (from N to 0), i.e. delete order starts from last created SS Pod and a Pod can't be deleted if the previous one couldn't be removed (in reverse order). All this mechanisms are in place in oder to protect/preserve data   
