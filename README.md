@@ -531,5 +531,17 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 - a Pod/application might have mounted "multiple types" of Volumes, e.g. elastic-app
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/43-pod-with-multiple-volumes.png" width="73%" height="70%">
 
+- 4=Important, in huge projects, working with a large number of PV and PVC might might be something complex to handle by k8s Administrators and Users, i.e. k8s admins creating and managing a vast amount of physical storage types and their PersistentValues (PVs) while k8s users make their "claims" (PVC) might be chaotic. In order to make this process more efficient there is a 3rd persistent component called "StorageClass" (SC) which provisions "PersistentVolumeS" (PVs) dynamically when PersistentVolumeClaim (PVC) "claims" it, i.e. in this manner, the creation of PersistentVolumeS (PVs) is automatic. Storage backend is defined in the StorageClass (SC) via <code>provisioner</code> attribute. Each storage backend has its own Provisioner, e.g. internal provisiones start with prefix "kubernetes.io" like <code>provisioner: kubernetes.io/aws-ebs</code> while externals have different paths. <code>parameters</code> attribute is the place where StorageClass (SC) configures the parameters for the storage that a k8s user wants to request for PersistentVolume (PV). In other words, a StorageClass is another abstraction level that abstracts underlying storage provider/provisioner as well as <code>parameters</code> for that Storage.
 
 
+**NOTE**
+> aws-ebs=AmazonWS Elastick Blocks Store   
+- 5=StorageClass (SC) is requested by PersistentValueClaim (PVC) under <code>spec</code>:<code>storageClassName</code> section, e.g. 
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/44-storage-class-and-pvc.PNG" width="73%" height="70%">
+
+- StorageClass usage: 1=Pod claims storage via PVC, 2=PVC requests storage from SC, 3=SC creates "dynamically" the PV that meets the needs of the Claim (instead of waiting for the k8s Administrator to do it manually, i.e. creating PV)
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/45-storage-class-usage.PNG" width="73%" height="70%">
+
+
+---
+# k8s statefulSet
