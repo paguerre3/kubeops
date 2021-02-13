@@ -545,3 +545,7 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 
 ---
 # k8s statefulSet
+- StatefulSet is used in applications that stores data like DataBases, e.g. mongoDb, mySql and elasticsearch. It depends on most up-to-date data/state for responding to query data and updates
+
+**NOTE**
+> Stateless applications don't keep record of state as each request received is treated as completely new and sometimes they can forward them to statefull apps. k8s Deployment configuration file is being used for building stateLESS applications as Deployment is an abstraction of Pods for making replications, i.e. Pods are considered ephemeral because they could crash and be replaced so Deployment is being used on stateLESS apps
