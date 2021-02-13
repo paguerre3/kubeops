@@ -556,7 +556,7 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/46-statefulset-identity.PNG" width="48%" height="30%">
 
 - Additionally, slave/reader Pods don't use the same physical storage even though they share the same replicated data, i.e. each pod replica must have the same data accross the database cluster at any time having a synchronization mechanism in place, configured by k8s administrator, which normaly maintains data up-to-date after "master" Pods writes.   
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/47-statefulset-cluster-sync.PNG" width="48%" height="30%">
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/47-statefulset-cluster-sync.PNG" width="73%" height="70%">
 
 **NOTE**
 > the creation of a new StatefulSet Pod means clonning the state/data of a previous Worker Pod (slave), i.e. replicating the same data in a new physical storage + new PersistentVolume (PV) + new StatefulSet Worker (slave). Once data is clonned, the synchronization mechanism starts over the new Worker (taking into account any updates of the Master pod). PersistentVolume life cycle isn't tied to others components of k8s cluster so it isn't affected by a Deployment/Pod chrash
@@ -568,4 +568,5 @@ dashboard-ingress   none     dashboard.com   192.168.49.2   80      3m7s</code><
 - StatefulSet (SS) identity is made of "fixed ordered names" while Deployment is a random hash, i.e. <pre><code>${statefulset name}-${ordinal} e.g. mysql-0 (Master), mysql-1 (Slave), mysql-2 (Slave) 
 vs 
 ${deployment name}-${random hash} e.g. myapp-c9e93d4e783165d</code></pre>
-- Important, a StatefulSet (SS) Pod will only be created if the previous one is "up-and-running" as SS Pods are created in sequential order (from 0 to N). The same occurs with deletion but in reverse order (from N to 0), i.e. delete order starts from last created SS Pod and a Pod can't be deleted if the previous one couldn't be removed (in reverse order). All this mechanisms are in place in oder to protect/preserve data   
+- Important, a StatefulSet (SS) Pod will only be created if the previous one is "up-and-running" as SS Pods are created in sequential order (from 0 to N). The same occurs with deletion but in reverse order (from N to 0), i.e. delete order starts from last created SS Pod and a Pod can't be deleted if the previous one couldn't be removed (in reverse order). All this mechanisms are in place in oder to protect/preserve data
+- 
