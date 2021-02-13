@@ -571,6 +571,7 @@ ${deployment name}-${random hash} e.g. myapp-c9e93d4e783165d</code></pre>
 - Important, a StatefulSet (SS) Pod will only be created if the previous one is "up-and-running" as SS Pods are created in sequential order (from 0 to N). The same occurs with deletion but in reverse order (from N to 0), i.e. delete order starts from last created SS Pod and a Pod can't be deleted if the previous one couldn't be removed (in reverse order). All this mechanisms are in place in oder to protect/preserve data
 - 2 Endpoints/Services for SS=each StatefulSet (SS) Pod gets its "own DNS endpoint" from Service, i.e. 1) there is a Service LoadBalancer (same as Deployment) that will address any replica Pod "plus" 2) each Pod will receive its own Service name or own DNS name (this 2nd characteristic differs from Deployment), e.g.  
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/49-statefulset-2-endpoints.PNG" width="73%" height="70%">
+
 - Individual service names for SS Pods are made of<pre><code>${pod name}.${governing service domain} 
 e.g. mysql-0.svc2, mysql-1.svc2, mysql-2.svc2</code></pre>
 - In summary, when Pod restarts, IP address changes but its predictible name (e.g. myslq-1) and its fixed individual DNS name (e.g. mysql-1.svc2) stay! so these 2 characeristics build the complete "sticky" Identity concept that allows PersistentVolume (PV) re-attachment after any re-schedule, i.e. Sticky Identity ensures that each Pod can retain state and its role after re-creation
