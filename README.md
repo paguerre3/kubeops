@@ -577,4 +577,18 @@ e.g. mysql-0.svc2, mysql-1.svc2, mysql-2.svc2</code></pre>
 - In summary, when Pod restarts, IP address changes but its predictible name (e.g. myslq-1) and its fixed individual DNS name (e.g. mysql-1.svc2) stay! so these 2 characeristics build the complete "sticky" Identity concept that allows PersistentVolume (PV) re-attachment after any re-schedule, i.e. Sticky Identity ensures that each Pod can retain state and its role after re-creation
 
 **NOTE**
-> Administrator still needs to do a lot besides k8s help, e.g. configuring the clonning and data synchronization, make remote storage available, managing and back-up. StateFUL applications are not a perfect candidate for containerized environments while stateLESS applications are, therefore scaling stateLESS applications using docker/k8s is simple because they are meant for it      
+> Administrator still needs to do a lot besides k8s help, e.g. configuring the clonning and data synchronization, make remote storage available, managing and back-up. StateFUL applications are not a perfect candidate for containerized environments while stateLESS applications are, therefore scaling stateLESS applications using docker/k8s is simple because they are meant for it
+
+
+---
+# k8s services
+- Each pod gets its own ip but they are ephemeral, i.e. after re-creation a new ip is assigned
+- Service provides the solution of an "stable" ip that stays after pod crashes
+- Service allows "LoadBalancing" in case of Pod replicas, i.e. it receives a request from a client and then it forwards it to one of the replicated Pods instead of calling them individually
+- Service is a good abstraction for loose coupling communication within the cluster and ouside of it (e.g. external browser interfaces with an endpoint Service)
+- 1=ClusterIP is the "default" Service type (no need to be explicitly defined) that acts as InternalService abstraction with its own internal IP, e.g. it can receive a request from an Ingress/IngressConroller via its InternalService IP:PORT and then it forwards it to the IP:PORT of one of the Pods replicated among worker Nodes (each worker Node receives its own ip-range for assigning ips to Pods).  
+
+**NOTE**
+> as mentioned in previous sections, Service communication with the Pod is done through the use of selectors and target ports. Service is usually defined inside Deployment, e.g. e.g. [mongo Deployment + InternalService](https://github.com/paguerre3/kubeops/blob/main/mongo.yml). Also, notice that when Services are created k8s creates an Endpoint object with the same name as the Servce that is responsible for keeping track of which Pods are the member/endpoints of the Service
+
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/50-endpoints.PNG" width="48%" height="30%">
