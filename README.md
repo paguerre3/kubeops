@@ -619,6 +619,6 @@ e.g. mysql-0.svc2, mysql-1.svc2, mysql-2.svc2</code></pre>
 
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/59-node-port-ip-clusterip.PNG" width="73%" height="70%">
 
-- NodePort Service expands to all its worker Nodes in case of forwarding to replica Pods inside the Nodes, i.e. NodePort receives the request and it forwards to any of the worker Nodes that then forwards to ClusterIP service that will finally forward to the Pods, e.g.
+- NodePort Service expands to all its worker Nodes in case of forwarding to replica Pods inside the Nodes, i.e. NodePort receives the request and it forwards to any of the worker Nodes of the cluster, e.g.
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/60-node-port-across-replica-pods.PNG" width="48%" height="30%">
 
