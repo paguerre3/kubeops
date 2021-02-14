@@ -605,5 +605,5 @@ e.g. mysql-0.svc2, mysql-1.svc2, mysql-2.svc2</code></pre>
 - No ClusterIP is assigned in case of Headless Service, e.g.
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/54-headless-svc-no-clusterip.PNG" width="73%" height="70%">
 
-- Commonly use cases for communicating with a data base offer Headless and ClusterIP services in combination, i.e. usually Client App "readers" talk with ClusterIP Service which balances the load and then only the "writter" Client talks to a Master StatefulSet (SS) Pod that allows updates  
+- Commonly use cases for communicating with a data base offer Headless and ClusterIP services in combination, i.e. usually Client App "readers" talk with ClusterIP Service which balances the load and then only the "writter" Client speaks to the Headless Service for accessing the Master StatefulSet (SS) Pod that allows updates  
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/55-headless-svc-and-clusterip.PNG" width="48%" height="30%">
