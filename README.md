@@ -589,7 +589,7 @@ e.g. mysql-0.svc2, mysql-1.svc2, mysql-2.svc2</code></pre>
 - 1=ClusterIP is the "default" Service type (no need to be explicitly defined) that acts as InternalService abstraction with its own internal IP, e.g. it can receive a request from an Ingress/IngressConroller via its InternalService IP:PORT and then it forwards it to the IP:PORT of one of the Pods replicated among worker Nodes (each worker Node receives its own ip-range for assigning ips to Pods)  
 
 **NOTE**
-> as mentioned in previous sections, Service communication with the Pod is done through the use of selectors and target ports. Service is usually defined inside Deployment, e.g. [mongo Deployment + InternalService](https://github.com/paguerre3/kubeops/blob/main/mongo.yml). Service <code>port</code> is arbitrary while <code>targetPort</code> must match the port the Container is listening at. Also, notice that when Services are created k8s generates an Endpoint object with the same name as the Servce that is responsible for keeping track of which Pods are the member/endpoints of the Service
+> as mentioned in previous sections, Service communication with the Pod is done through the use of selectors and target ports. Service is usually defined inside Deployment, e.g. [mongo Deployment + InternalService](https://github.com/paguerre3/kubeops/blob/main/mongo.yml). Service <code>port</code> is arbitrary while <code>targetPort</code> must match the port the Container is listening at. Also, notice that when Services are created k8s generates an Endpoint object with the same name as the Service that is responsible for keeping track of which Pods are the member/endpoints of the Service
 
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/50-endpoints.PNG" width="48%" height="30%">
 
@@ -598,4 +598,12 @@ e.g. mysql-0.svc2, mysql-1.svc2, mysql-2.svc2</code></pre>
 
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/52-clusterip-multiple-ports.PNG" width="73%" height="70%">
 
-- 2=Headless Service
+- 2=Headless Service is used when a client wants to communicate to a "single" Pod directly or when Pods want to communicate directly with an specific Pod, i.e. not randomly selected like when ClusterIP forwards its request. Headless Service is used for stateful applications like data bases, e.g. mongodb or mysql, where Pods have its own Identity (fixed predictible name + individual DNS name) used for re-attachment of Persistent Volumes (PV) so data storage is consistent after any re-schedule, i.e. StatefulSet (SS) Pods have their own state and characteristics/role (e.g. master vs slaves and install order) therefore they can't be considered Identical like Deployment Pods that can be named randomly
+- In case of Headless Service, a Client needs to figure out the IP address of each Pod and for doing that there are 2 alternatives: Option 1) Api call to k8s Api Server which is inefficient and it makes the Client App "too tied" to k8s Api. Option 2) "DNS Lookup" to discover IP addresses of Pods, i.e. a DNS Lookup for Service normally returns single IP address (ClusterIP address of InternalService) however if during Headless Service creation the ClusterIP is set to None (<code>clusterIP: none</code>) then DNS Lookup returns Pod IP address instead
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/53-headless-svc-dns-lookup.PNG" width="73%" height="70%">
+
+- No ClusterIP is assigned in case of Headless Service, e.g.
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/54-headless-svc-no-clusterip.PNG" width="73%" height="70%">
+
+- Commonly use cases for communicating with a data base offer Headless and ClusterIP services in combination, i.e. usually Client App "readers" talk with ClusterIP Service which balances the load and then only the "writter" Client talks to a Master StatefulSet (SS) Pod that allows updates  
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/55-headless-svc-and-clusterip.PNG" width="48%" height="30%">
