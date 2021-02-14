@@ -586,9 +586,16 @@ e.g. mysql-0.svc2, mysql-1.svc2, mysql-2.svc2</code></pre>
 - Service provides the solution of an "stable" ip that stays after pod crashes
 - Service allows "LoadBalancing" in case of Pod replicas, i.e. it receives a request from a client and then it forwards it to one of the replicated Pods instead of calling them individually
 - Service is a good abstraction for loose coupling communication within the cluster and ouside of it (e.g. external browser interfaces with an endpoint Service)
-- 1=ClusterIP is the "default" Service type (no need to be explicitly defined) that acts as InternalService abstraction with its own internal IP, e.g. it can receive a request from an Ingress/IngressConroller via its InternalService IP:PORT and then it forwards it to the IP:PORT of one of the Pods replicated among worker Nodes (each worker Node receives its own ip-range for assigning ips to Pods).  
+- 1=ClusterIP is the "default" Service type (no need to be explicitly defined) that acts as InternalService abstraction with its own internal IP, e.g. it can receive a request from an Ingress/IngressConroller via its InternalService IP:PORT and then it forwards it to the IP:PORT of one of the Pods replicated among worker Nodes (each worker Node receives its own ip-range for assigning ips to Pods)  
 
 **NOTE**
-> as mentioned in previous sections, Service communication with the Pod is done through the use of selectors and target ports. Service is usually defined inside Deployment, e.g. e.g. [mongo Deployment + InternalService](https://github.com/paguerre3/kubeops/blob/main/mongo.yml). Also, notice that when Services are created k8s creates an Endpoint object with the same name as the Servce that is responsible for keeping track of which Pods are the member/endpoints of the Service
+> as mentioned in previous sections, Service communication with the Pod is done through the use of selectors and target ports. Service is usually defined inside Deployment, e.g. [mongo Deployment + InternalService](https://github.com/paguerre3/kubeops/blob/main/mongo.yml). Service <code>port</code> is arbitrary while <code>targetPort</code> must match the port the Container is listening at. Also, notice that when Services are created k8s generates an Endpoint object with the same name as the Servce that is responsible for keeping track of which Pods are the member/endpoints of the Service
 
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/50-endpoints.PNG" width="48%" height="30%">
+
+- Multiple-Port Service: It is possible to support the use case of having a Pod holding multiple Containers and under that scenario the ClusterIP/InternalService "must name" the multiple Ports, e.g. mongodb-application (db access) and exporter (used by Prometheus as scraping port for metrics) 
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/51-clusterip-multiple-ports.PNG" width="73%" height="70%">
+
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/52-clusterip-multiple-ports.PNG" width="73%" height="70%">
+
+- 2=Headless Service
