@@ -629,11 +629,11 @@ e.g. mysql-0.svc2, mysql-1.svc2, mysql-2.svc2</code></pre>
 - 4=LoadBalancer is an ExternalService that becomes accessible "externally" through a Cloud Providers LoadBalancer, i.e. each Cloud Provider has its own LoadBalancer implementation that will be used when creating a LoadBalancer type, e.g. aws-elb. When a LoadBalancer Service is created also a NodePort and a ClusterIP get generated, i.e. LoadBalancer receives the request and then it forwards to NodePort that then it forwards to ClusterIP that does the last forward to the Pod  
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/62-load-balancer.PNG" width="48%" height="30%">
 
-- LoadBalancer definition requires <code>spec</code>:<code>type: LoadBalancer</code> and <code>nodePort: (30000-32767)</code>, i.e. "entry point" is LoadBalancer, then it goes to NodePort, then to ClusterIp and finally to the Pods
+- LoadBalancer definition requires <code>spec</code>:<code>type: LoadBalancer</code> and <code>nodePort: (30000-32767)</code>, i.e. "entry point" is LoadBalancer, then it goes to NodePort, then to ClusterIP and finally to the Pods
 <img src="https://github.com/paguerre3/kubeops/blob/main/support/63-load-balancer-spec.png" width="73%" height="70%">
 
 **NOTe**
 > LoadBalancer Service is considered an extension of NodePort Service and NodePort Service is considered an extension of ClusterIP Service. Service type details, e.g.
 
-<img src="https://github.com/paguerre3/kubeops/blob/main/support/63-load-balancer-spec.png" width="73%" height="70%">
+<img src="https://github.com/paguerre3/kubeops/blob/main/support/64-svc-types-details.PNG" width="73%" height="70%">
 
